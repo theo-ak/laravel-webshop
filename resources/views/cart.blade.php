@@ -1,7 +1,8 @@
 <x-layout>
-    <a href="/cart">
-        <button class="btn btn-primary my-3">To Cart</button>
+    <a href="/">
+        <button class="btn btn-primary my-3">To Index</button>
     </a>
+
     <table class="table text-light">
         <thead>
         <tr>
@@ -22,10 +23,10 @@
                 <td>{{ $product->price }}</td>
                 <td><img src="{{ asset("img/$product->img") }}" alt="album image"></td>
                 <td>
-                    <form action="/" method="post">
+                    <form action="/cart" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ $product->id }}">
-                        <button type="submit" class="btn btn-primary">Add to cart</button>
+                        <button type="submit" class="btn btn-primary">Remove</button>
                     </form>
                 </td>
             </tr>

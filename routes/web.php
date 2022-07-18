@@ -16,15 +16,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function (Request $request) {
-    return view('products', [
-        'products' => Product::notInCart($request)
-    ]);
+    return view('products', ['products' => Product::notInCart($request)]);
 });
 
 Route::post('/', function (Request $request) {
-    $request->session()->push('cart', $request->input('id'));
+    Product::addToCart($request);
 
-    return view('products', [
-        'products' => Product::notInCart($request)
-    ]);
+    return view('products', ['products' => Product::notInCart($request)]);
+});
+
+Route::get('/cart', function (Request $request) {
+    return view('cart', ['products' => Product::inCart($request)]);
+});
+
+Route::post('/cart', function (Request $request) {
+    Product::removeFromCart($request);
+
+    return view('cart', ['products' => Product::inCart($request)]);
 });
