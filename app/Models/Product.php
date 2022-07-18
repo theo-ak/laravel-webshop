@@ -12,7 +12,12 @@ class Product extends Model
 
     static function addToCart(Request $request)
     {
-        $request->session()->push('cart', $request->input('id'));
+        $cart = collect($request->session()->get('cart'));
+        $id = $request->input('id');
+
+        if (!$cart->search($id) && is_numeric($id) && Product::find($id)) {
+            $request->session()->push('cart', $id);
+        }
     }
 
     static function removeFromCart(Request $request)
