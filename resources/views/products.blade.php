@@ -19,7 +19,11 @@
                 <td>{{ $product->price }}</td>
                 <td><img src="{{ asset("img/$product->img") }}" alt="album image"></td>
                 <td>
-                    <button type="button" class="btn btn-primary">Add</button>
+                    <form action="/" method="post">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $product->id }}">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
                 </td>
             </tr>
         </tbody>

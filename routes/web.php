@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
     return view('products', [
-        'products' => Product::all()
+        'products' => Product::notInCart($request)
+    ]);
+});
+
+Route::post('/', function (Request $request) {
+    $request->session()->push('cart', $request->input('id'));
+
+    return view('products', [
+        'products' => Product::notInCart($request)
     ]);
 });
