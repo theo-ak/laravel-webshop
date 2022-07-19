@@ -7,6 +7,10 @@
         <button class="btn btn-primary my-3">To Cart</button>
     </a>
 
+    <a href="/product/add">
+        <button class="btn btn-primary my-3">Add New Product</button>
+    </a>
+
     <table class="table text-light">
         <thead>
         <tr>
@@ -32,8 +36,8 @@
                         <input type="hidden" name="id" value="{{ $product->id }}">
                         <button type="submit" class="btn btn-primary">Delete Product</button>
                     </form>
-                    <a href="/product/{{ $product->id }}">
-                        <button type="button" class="btn btn-primary my-3">View</button>
+                    <a href="/product/edit/{{ $product->id }}">
+                        <button type="button" class="btn btn-primary my-3">Edit</button>
                     </a>
                 </td>
             </tr>

@@ -10,6 +10,10 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $attributes = [
+        'img' => 'image',
+    ];
+
     static function addToCart(Request $request)
     {
         $cart = collect($request->session()->get('cart'));

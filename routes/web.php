@@ -46,6 +46,28 @@ Route::post('/products', function (Request $request) {
     return view('products', ['products' => Product::all()]);
 });
 
-Route::get('/product/{product}', function (Product $product) {
-    return view('product', ['product' => $product]);
+Route::get('/product/edit/{product}', function (Product $product, Request $request) {
+    return view('product', ['product' => $product, 'request' => $request]);
+})->name('edit');
+
+Route::post('/product/edit/{product}', function (Product $product, Request $request) {
+    $product->title = $request->input('title');
+    $product->description = $request->input('description');
+    $product->price = $request->input('price');
+    $product->save();
+
+    return view('product', ['product' => $product, 'request' => $request]);
+});
+
+Route::get('/product/add', function (Request $request) {
+    return view('product', ['product' => new Product, 'request' => $request]);
+});
+
+Route::post('/product/add', function (Product $product, Request $request) {
+    $product->title = $request->input('title');
+    $product->description = $request->input('description');
+    $product->price = $request->input('price');
+    $product->save();
+
+    return redirect()->route('edit', ['product' => $product->id]);
 });
