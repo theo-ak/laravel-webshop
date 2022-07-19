@@ -1,11 +1,12 @@
 <x-layout>
+    <a href="/">
+        <button class="btn btn-primary my-3">To Index</button>
+    </a>
+
     <a href="/cart">
         <button class="btn btn-primary my-3">To Cart</button>
     </a>
 
-    <a href="/products">
-        <button class="btn btn-primary my-3">To Products Page</button>
-    </a>
     <table class="table text-light">
         <thead>
         <tr>

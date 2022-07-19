@@ -3,6 +3,10 @@
         <button class="btn btn-primary my-3">To Index</button>
     </a>
 
+    <a href="/products">
+        <button class="btn btn-primary my-3">To Products Page</button>
+    </a>
+
     <table class="table text-light">
         <thead>
         <tr>

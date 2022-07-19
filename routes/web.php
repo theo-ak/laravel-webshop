@@ -34,3 +34,11 @@ Route::post('/cart', function (Request $request) {
 
     return view('cart', ['products' => Product::inCart($request)]);
 });
+
+Route::get('/products', function () {
+    return view('products', ['products' => Product::all()]);
+});
+
+Route::get('/product/{product}', function (Product $product) {
+    return view('product', ['product' => $product]);
+});

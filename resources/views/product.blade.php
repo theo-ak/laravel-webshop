@@ -1,8 +1,4 @@
 <x-layout>
-    <a href="/cart">
-        <button class="btn btn-primary my-3">To Cart</button>
-    </a>
-
     <a href="/products">
         <button class="btn btn-primary my-3">To Products Page</button>
     </a>
@@ -18,7 +14,6 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($products as $product)
             <tr>
                 <th scope="row">{{ $product->id }}</th>
                 <td>{{ $product->title }}</td>
@@ -34,6 +29,5 @@
                 </td>
             </tr>
         </tbody>
-    @endforeach
 </x-layout>
 
