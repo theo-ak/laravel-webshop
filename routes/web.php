@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function (Request $request) {
-    return view('products', ['products' => Product::notInCart($request)]);
+    return view('index', ['products' => Product::notInCart($request)]);
 });
 
 Route::post('/', function (Request $request) {
     Product::addToCart($request);
 
-    return view('products', ['products' => Product::notInCart($request)]);
+    return view('index', ['products' => Product::notInCart($request)]);
 });
 
 Route::get('/cart', function (Request $request) {
