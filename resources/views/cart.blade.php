@@ -34,7 +34,7 @@
                     </form>
                 </td>
             </tr>
+        @endforeach
         </tbody>
-    @endforeach
 </x-layout>
 

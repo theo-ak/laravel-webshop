@@ -39,6 +39,13 @@ Route::get('/products', function () {
     return view('products', ['products' => Product::all()]);
 });
 
+Route::post('/products', function (Request $request) {
+    Product::find($request->input('id'))->delete();
+    Product::removeFromCart($request);
+
+    return view('products', ['products' => Product::all()]);
+});
+
 Route::get('/product/{product}', function (Product $product) {
     return view('product', ['product' => $product]);
 });

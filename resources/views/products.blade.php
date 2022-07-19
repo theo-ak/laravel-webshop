@@ -27,14 +27,17 @@
                 <td>{{ $product->price }}</td>
                 <td><img src="{{ asset("img/$product->img") }}" alt="album image"></td>
                 <td>
-                    <form action="/" method="post">
+                    <form action="/products" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ $product->id }}">
-                        <button type="submit" class="btn btn-primary">Add to cart</button>
+                        <button type="submit" class="btn btn-primary">Delete Product</button>
                     </form>
+                    <a href="/product/{{ $product->id }}">
+                        <button type="button" class="btn btn-primary my-3">View</button>
+                    </a>
                 </td>
             </tr>
+        @endforeach
         </tbody>
-    @endforeach
 </x-layout>
 
