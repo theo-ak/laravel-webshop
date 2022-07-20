@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -80,6 +81,16 @@ Route::post('cart/checkout', function (Request $request) {
     $order->contact = $request->input('contact');
     $order->comments = $request->input('comments');
     $order->save();
+
+    $products = Product::inCart($request);
+    foreach ($products as $product) {
+        $order_product = new OrderProduct;
+
+        $order_product->order_id = $order->id;
+        $order_product->product_id = $product->id;
+
+        $order_product->save();
+    }
 
     return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
 });
