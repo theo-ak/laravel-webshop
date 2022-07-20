@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -69,5 +70,16 @@ Route::post('/product/add', function (Product $product, Request $request) {
     $product->price = $request->input('price');
     $product->save();
 
-    return redirect()->route('edit', ['product' => $product->id]);
+    return view('/cart', ['products' => Product::inCart($request)]);
+});
+
+Route::post('cart/checkout', function (Request $request) {
+    $order = new Order;
+
+    $order->name = $request->input('name');
+    $order->contact = $request->input('contact');
+    $order->comments = $request->input('comments');
+    $order->save();
+
+    return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
 });

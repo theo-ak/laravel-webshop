@@ -14,6 +14,11 @@ class Product extends Model
         'img' => 'image',
     ];
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
     static function addToCart(Request $request)
     {
         $cart = collect($request->session()->get('cart'));

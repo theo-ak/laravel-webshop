@@ -15,8 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Product::truncate();
-
         Product::create([
             'title' => 'Sentenced - The Cold White Light',
             'description' => 'The Cold White Light is an album by the Finnish metal band Sentenced, released in May 2002 on Century Media. Limited copies contain the video for the song "Killing Me Killing You" from the band\'s previous album Crimson plus a free Sentenced sticker. Konevitsan kirkonkellot ("The Church Bells of Konevets") was originally recorded by Piirpauke in 1974',

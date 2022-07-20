@@ -36,5 +36,31 @@
             </tr>
         @endforeach
         </tbody>
+    </table>
+
+    <form action="/cart/checkout" method="post">
+        @csrf
+        <div class="form-group">
+            <label for="name" class="text-light">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
+                   value="{{ $order->name ?? '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contact" class="text-light">Contact details</label>
+            <input type="text" class="form-control" id="contact" name="contact" placeholder="Enter contact details"
+                   value="{{ $order->contact ?? ''}}"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="comments" class="text-light">Comments</label>
+            <input type="text" class="form-control" id="comments" name="comments" placeholder="Enter comments"
+                   value="{{ $order->comments ?? '' }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Checkout</button>
+    </form>
+
 </x-layout>
 
