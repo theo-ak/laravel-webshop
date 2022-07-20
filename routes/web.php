@@ -94,3 +94,7 @@ Route::post('cart/checkout', function (Request $request) {
 
     return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
 });
+
+Route::get('/orders', function () {
+    return view('orders', ['orders' => Order::all()]);
+});
