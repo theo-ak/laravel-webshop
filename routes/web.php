@@ -75,26 +75,36 @@ Route::post('/product/add', function (Product $product, Request $request) {
 });
 
 Route::post('cart/checkout', function (Request $request) {
-    $order = new Order;
-
-    $order->name = $request->input('name');
-    $order->contact = $request->input('contact');
-    $order->comments = $request->input('comments');
-    $order->save();
-
     $products = Product::inCart($request);
-    foreach ($products as $product) {
-        $order_product = new OrderProduct;
 
-        $order_product->order_id = $order->id;
-        $order_product->product_id = $product->id;
+    if (!$products->isEmpty()) {
+        $order = new Order;
 
-        $order_product->save();
+        $order->name = $request->input('name');
+        $order->contact = $request->input('contact');
+        $order->comments = $request->input('comments');
+        $order->save();
+
+        foreach ($products as $product) {
+            $order_product = new OrderProduct;
+
+            $order_product->order_id = $order->id;
+            $order_product->product_id = $product->id;
+
+            $order_product->save();
+        }
+
+        $request->session()->put('cart', []);
+        return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
     }
 
-    return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
+    return view('cart', ['products' => Product::inCart($request)]);
 });
 
 Route::get('/orders', function () {
     return view('orders', ['orders' => Order::all()]);
+});
+
+Route::get('/order/{order}', function (Order $order) {
+    return view('order', ['order' => $order]);
 });
