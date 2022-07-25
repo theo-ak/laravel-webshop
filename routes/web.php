@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Mail\OrderDetails;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -98,6 +100,8 @@ Route::post('cart/checkout', function (Request $request) {
 
             $order_product->save();
         }
+
+        Mail::to('shop-admin@shop.com')->send(new OrderDetails($order));
 
         $request->session()->put('cart', []);
         return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
