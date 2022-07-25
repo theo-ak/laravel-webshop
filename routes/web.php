@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/login', [LoginController::class, 'show'])->name('login');
+
+Route::post('/login', [LoginController::class, 'authenticate']);
 
 Route::get('/', function (Request $request) {
     return view('index', ['products' => Product::notInCart($request)]);
@@ -39,18 +44,18 @@ Route::post('/cart', function (Request $request) {
 
 Route::get('/products', function () {
     return view('products', ['products' => Product::all()]);
-});
+})->middleware('auth');
 
 Route::post('/products', function (Request $request) {
     Product::find($request->input('id'))->delete();
     Product::removeFromCart($request);
 
     return view('products', ['products' => Product::all()]);
-});
+})->middleware('auth');
 
 Route::get('/product/edit/{product}', function (Product $product, Request $request) {
     return view('product', ['product' => $product, 'request' => $request]);
-})->name('edit');
+})->name('edit')->middleware('auth');
 
 Route::post('/product/edit/{product}', function (Product $product, Request $request) {
     $product->title = $request->input('title');
@@ -59,11 +64,11 @@ Route::post('/product/edit/{product}', function (Product $product, Request $requ
     $product->save();
 
     return view('product', ['product' => $product, 'request' => $request]);
-});
+})->middleware('auth');
 
 Route::get('/product/add', function (Request $request) {
     return view('product', ['product' => new Product, 'request' => $request]);
-});
+})->middleware('auth');
 
 Route::post('/product/add', function (Product $product, Request $request) {
     $product->title = $request->input('title');
@@ -72,7 +77,7 @@ Route::post('/product/add', function (Product $product, Request $request) {
     $product->save();
 
     return view('/cart', ['products' => Product::inCart($request)]);
-});
+})->middleware('auth');
 
 Route::post('cart/checkout', function (Request $request) {
     $products = Product::inCart($request);
@@ -103,8 +108,10 @@ Route::post('cart/checkout', function (Request $request) {
 
 Route::get('/orders', function () {
     return view('orders', ['orders' => Order::all()]);
-});
+})->middleware('auth');
 
 Route::get('/order/{order}', function (Order $order) {
     return view('order', ['order' => $order]);
-});
+})->middleware('auth');
+
+
