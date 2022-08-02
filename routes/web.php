@@ -2,13 +2,10 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use App\Mail\OrderDetails;
-use App\Models\Order;
-use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,12 +43,7 @@ Route::post('/product/add', [ProductController::class, 'store'])->middleware('au
 Route::get('/product/edit/{product}', [ProductController::class, 'edit'])->name('edit')->middleware('auth');
 Route::post('/product/edit/{product}', [ProductController::class, 'update'])->middleware('auth');
 
-Route::get('/orders', function () {
-    return view('orders', ['orders' => Order::all()]);
-})->middleware('auth');
-
-Route::get('/order/{order}', function (Order $order) {
-    return view('order', ['order' => $order]);
-})->middleware('auth');
+Route::get('/orders', [OrderController::class, 'index'])->middleware('auth');
+Route::get('/order/{order}', [OrderController::class, 'show'])->middleware('auth');
 
 
