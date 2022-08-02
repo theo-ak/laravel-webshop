@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
 use App\Mail\OrderDetails;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -20,9 +21,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', [LoginController::class, 'show'])->name('login');
+Route::get('/login', [LoginController::class, 'create'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'store'])->middleware('guest');
 
-Route::post('/login', [LoginController::class, 'authenticate']);
+Route::get('/logout', [LoginController::class, 'destroy'])->middleware('auth');
 
 Route::get('/', function (Request $request) {
     return view('index', ['products' => Product::notInCart($request)]);
@@ -44,42 +46,14 @@ Route::post('/cart', function (Request $request) {
     return view('cart', ['products' => Product::inCart($request)]);
 });
 
-Route::get('/products', function () {
-    return view('products', ['products' => Product::all()]);
-})->middleware('auth');
+Route::get('/products', [ProductController::class, 'index'])->middleware('auth');
+Route::post('/products', [ProductController::class, 'destroy'])->middleware('auth');
 
-Route::post('/products', function (Request $request) {
-    Product::find($request->input('id'))->delete();
-    Product::removeFromCart($request);
+Route::get('/product/add', [ProductController::class, 'create'])->middleware('auth');
+Route::post('/product/add', [ProductController::class, 'store'])->middleware('auth');
 
-    return view('products', ['products' => Product::all()]);
-})->middleware('auth');
-
-Route::get('/product/edit/{product}', function (Product $product, Request $request) {
-    return view('product', ['product' => $product, 'request' => $request]);
-})->name('edit')->middleware('auth');
-
-Route::post('/product/edit/{product}', function (Product $product, Request $request) {
-    $product->title = $request->input('title');
-    $product->description = $request->input('description');
-    $product->price = $request->input('price');
-    $product->save();
-
-    return view('product', ['product' => $product, 'request' => $request]);
-})->middleware('auth');
-
-Route::get('/product/add', function (Request $request) {
-    return view('product', ['product' => new Product, 'request' => $request]);
-})->middleware('auth');
-
-Route::post('/product/add', function (Product $product, Request $request) {
-    $product->title = $request->input('title');
-    $product->description = $request->input('description');
-    $product->price = $request->input('price');
-    $product->save();
-
-    return view('/cart', ['products' => Product::inCart($request)]);
-})->middleware('auth');
+Route::get('/product/edit/{product}', [ProductController::class, 'edit'])->name('edit')->middleware('auth');
+Route::post('/product/edit/{product}', [ProductController::class, 'update'])->middleware('auth');
 
 Route::post('cart/checkout', function (Request $request) {
     $products = Product::inCart($request);

@@ -2,45 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-
-    /**
-     * Handle an authentication attempt.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function show()
+    public function create()
     {
-        if (Auth::check()) {
-            return redirect()->intended('/products');
-        }
-
         return view('login');
     }
 
-    public function authenticate(Request $request)
+    public function store()
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+
+        $credentials = request()->validate([
+            'email' => 'required',
+            'password' => 'required'
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        if (auth()->attempt($credentials)) {
+            session()->regenerate();
 
-            return redirect()->intended('/products');
+            return redirect('/');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+//        dd($credentials);
+
+        return back()
+            ->withInput()
+            ->withErrors(['email' => 'Invalid credentials.']);
+
+    }
+
+    public function destroy()
+    {
+        auth()->logout();
+
+        return redirect('/')->with('success', 'Goodbye!');
     }
 }
