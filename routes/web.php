@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Mail\OrderDetails;
@@ -30,21 +31,11 @@ Route::get('/', function (Request $request) {
     return view('index', ['products' => Product::notInCart($request)]);
 });
 
-Route::post('/', function (Request $request) {
-    Product::addToCart($request);
+Route::post('/', [CartController::class, 'add']);
 
-    return view('index', ['products' => Product::notInCart($request)]);
-});
-
-Route::get('/cart', function (Request $request) {
-    return view('cart', ['products' => Product::inCart($request)]);
-});
-
-Route::post('/cart', function (Request $request) {
-    Product::removeFromCart($request);
-
-    return view('cart', ['products' => Product::inCart($request)]);
-});
+Route::get('/cart', [CartController::class, 'index']);
+Route::post('/cart', [CartController::class, 'remove']);
+Route::post('cart/checkout', [CartController::class, 'checkout']);
 
 Route::get('/products', [ProductController::class, 'index'])->middleware('auth');
 Route::post('/products', [ProductController::class, 'destroy'])->middleware('auth');
@@ -54,35 +45,6 @@ Route::post('/product/add', [ProductController::class, 'store'])->middleware('au
 
 Route::get('/product/edit/{product}', [ProductController::class, 'edit'])->name('edit')->middleware('auth');
 Route::post('/product/edit/{product}', [ProductController::class, 'update'])->middleware('auth');
-
-Route::post('cart/checkout', function (Request $request) {
-    $products = Product::inCart($request);
-
-    if (!$products->isEmpty()) {
-        $order = new Order;
-
-        $order->name = $request->input('name');
-        $order->contact = $request->input('contact');
-        $order->comments = $request->input('comments');
-        $order->save();
-
-        foreach ($products as $product) {
-            $order_product = new OrderProduct;
-
-            $order_product->order_id = $order->id;
-            $order_product->product_id = $product->id;
-
-            $order_product->save();
-        }
-
-        Mail::to('shop-admin@shop.com')->send(new OrderDetails($order));
-
-        $request->session()->put('cart', []);
-        return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
-    }
-
-    return view('cart', ['products' => Product::inCart($request)]);
-});
 
 Route::get('/orders', function () {
     return view('orders', ['orders' => Order::all()]);
