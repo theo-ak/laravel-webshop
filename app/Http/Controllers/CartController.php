@@ -13,6 +13,7 @@ class CartController extends Controller
 {
     public function index(Request $request)
     {
+//        dd($request->session()->all());
         return view('cart', ['products' => Product::inCart($request)]);
     }
 
@@ -43,11 +44,16 @@ class CartController extends Controller
         $products = Product::inCart($request);
 
         if (!$products->isEmpty()) {
+            $attributes = $request->validate([
+                'name' => 'required',
+                'contact' => 'required'
+            ]);
+
             $order = new Order;
 
-            $order->name = $request->input('name');
-            $order->contact = $request->input('contact');
-            $order->comments = $request->input('comments');
+            $order->name = $attributes['name'];
+            $order->contact = $attributes['contact'];
+            $order->comments = $attributes['comments'] ?? '';
             $order->save();
 
             foreach ($products as $product) {
@@ -65,6 +71,7 @@ class CartController extends Controller
             return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
         }
 
-        return redirect('/cart');
+        return back()
+            ->withInput();
     }
 }

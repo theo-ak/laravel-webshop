@@ -40,23 +40,31 @@
 
     <form action="/cart/checkout" method="post">
         @csrf
+
         <div class="form-group">
             <label for="name" class="text-light">Name</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
-                   value="{{ $order->name ?? '' }}" required>
+                   value="{{ old('name') }}">
+
+            @error('name')
+            <p class="text-white">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="contact" class="text-light">Contact details</label>
             <input type="text" class="form-control" id="contact" name="contact" placeholder="Enter contact details"
-                   value="{{ $order->contact ?? ''}}"
-                   required>
+                   value="{{ old('contact') }}">
+
+            @error('contact')
+            <p class="text-white">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="comments" class="text-light">Comments</label>
             <input type="text" class="form-control" id="comments" name="comments" placeholder="Enter comments"
-                   value="{{ $order->comments ?? '' }}" required>
+                   value="{{ $order->comments ?? '' }}">
         </div>
 
         <button type="submit" class="btn btn-primary">Checkout</button>
