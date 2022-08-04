@@ -1,5 +1,5 @@
 <x-layout>
-    <form method="post" action="/login" class="text-white">
+    <form method="post" action="/login">
         @csrf
 
         <div class="form-group">

@@ -47,7 +47,7 @@
                    value="{{ old('name') }}">
 
             @error('name')
-            <p class="text-white">{{ $message }}</p>
+            <p>{{ $message }}</p>
             @enderror
         </div>
 
@@ -57,7 +57,7 @@
                    value="{{ old('contact') }}">
 
             @error('contact')
-            <p class="text-white">{{ $message }}</p>
+            <p>{{ $message }}</p>
             @enderror
         </div>
 

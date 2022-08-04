@@ -6,7 +6,7 @@
     <a href="/products">
         <button class="btn btn-primary my-3">To Products Page</button>
     </a>
-    <table class="table text-light">
+    <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
