@@ -25,8 +25,6 @@ class LoginController extends Controller
             return redirect('/');
         }
 
-//        dd($credentials);
-
         return back()
             ->withInput()
             ->withErrors(['email' => 'Invalid credentials.']);

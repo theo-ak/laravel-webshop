@@ -40,10 +40,14 @@ class ProductController extends Controller
 
     public function update(Product $product, Request $request)
     {
-        $product->title = $request->input('title');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
-        $product->save();
+        $attributes = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'img' => 'image'
+        ]);
+
+        $product->update($attributes);
 
         return back();
     }

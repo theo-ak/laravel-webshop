@@ -43,6 +43,10 @@
                 <p class="text-white">Current image:</p>
                 <img src="{{ asset('storage/' . $product->img) }}" alt="product image">
             @endif
+
+            @error('img')
+            <p class="text-white">{{ $message }}</p>
+            @enderror
         </div>
 
         <input type="hidden" name="id" value="{{ $product->id ?? ''}}">
