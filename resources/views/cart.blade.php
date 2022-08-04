@@ -38,6 +38,10 @@
         </tbody>
     </table>
 
+    @error('cart')
+    <p>{{ $message }}</p>
+    @enderror
+
     <form action="/cart/checkout" method="post">
         @csrf
 

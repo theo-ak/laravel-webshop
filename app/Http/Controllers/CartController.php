@@ -72,6 +72,7 @@ class CartController extends Controller
         }
 
         return back()
-            ->withInput();
+            ->withInput()
+            ->withErrors(['cart' => 'The cart is empty.']);
     }
 }
