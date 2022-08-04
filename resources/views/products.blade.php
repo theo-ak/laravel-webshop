@@ -22,6 +22,7 @@
             <th scope="col"></th>
         </tr>
         </thead>
+
         <tbody>
         @foreach($products as $product)
             <tr>
@@ -29,7 +30,7 @@
                 <td>{{ $product->title }}</td>
                 <td>{{ $product->description }}</td>
                 <td>{{ $product->price }}</td>
-                <td><img src="{{ asset("img/$product->img") }}" alt="album image"></td>
+                <td><img src="{{ asset('storage/' . $product->img) }}" alt="album image"></td>
                 <td>
                     <form action="/products" method="post">
                         @csrf
@@ -43,5 +44,6 @@
             </tr>
         @endforeach
         </tbody>
+    </table>
 </x-layout>
 

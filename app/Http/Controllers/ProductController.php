@@ -17,12 +17,18 @@ class ProductController extends Controller
         return view('product', ['product' => new Product, 'request' => $request]);
     }
 
-    public function store(Product $product, Request $request)
+    public function store(Request $request)
     {
-        $product->title = $request->input('title');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
-        $product->save();
+        $attributes = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'img' => 'image'
+        ]);
+
+        $attributes['img'] = $request->file('img')->store('thumbnails');
+
+        $product = Product::create($attributes);
 
         return redirect()->action([ProductController::class, 'edit'], ['product' => $product, 'request' => $request]);
     }

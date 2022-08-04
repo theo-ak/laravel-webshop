@@ -2,24 +2,37 @@
     <a href="/products">
         <button class="btn btn-primary my-3">To Products Page</button>
     </a>
-    <form method="post" action="/{{ $request->path() }}">
+
+    <form method="post" action="/{{ $request->path() }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label for="title" class="text-light">Title</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"
-                   value="{{ $product->title }}" required>
+                   value="{{ $product->title }}">
+
+            @error('title')
+            <p class="text-white">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="description" class="text-light">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3"
-                      required>{{ $product->description }}</textarea>
+            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter description"
+            >{{ $product->description }}</textarea>
+
+            @error('description')
+            <p class="text-white">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="price" class="text-light">Price</label>
             <input type="number" step=".01" class="form-control" id="price" name="price" placeholder="Enter price"
-                   value="{{ $product->price }}" required>
+                   value="{{ $product->price }}">
+
+            @error('price')
+            <p class="text-white">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
