@@ -1,10 +1,10 @@
-<p>Customer Name: {{ $order->name }}</p>
-<p>Contact details: {{ $order->contact }}</p>
-<p>Contact details: {{ $order->comments }}</p>
-<p>Items ordered:</p>
+<p>{{ __('labels.Customer Name') }}: {{ $order->name }}</p>
+<p>{{ __('labels.Contact details') }}: {{ $order->contact }}</p>
+<p>{{ __('labels.Comments') }}: {{ $order->comments }}</p>
+<p>{{ __('labels.Items ordered') }}</p>
 <ul>
     @foreach($order->products as $product)
         <li>{{ $product->title }}</li>
     @endforeach
 </ul>
-<p>Total: {{ $order->products->sum('price') }}</p>
+<p>{{ __('labels.Total') }}: {{ $order->products->sum('price') }}</p>

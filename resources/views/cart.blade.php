@@ -1,19 +1,19 @@
 <x-layout>
     <a href="/">
-        <button class="btn btn-primary my-3">To Index</button>
+        <button class="btn btn-primary my-3">{{ __('labels.To Index') }}</button>
     </a>
 
     <a href="/products">
-        <button class="btn btn-primary my-3">To Products Page</button>
+        <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
     </a>
 
     <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
+            <th scope="col">{{ __('labels.Title') }}</th>
+            <th scope="col">{{ __('labels.Description') }}</th>
+            <th scope="col">{{ __('labels.Price') }}</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -46,8 +46,8 @@
         @csrf
 
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
+            <label for="name">{{ __('labels.Name') }}</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="{{ __('labels.Enter name') }}"
                    value="{{ old('name') }}">
 
             @error('name')
@@ -56,8 +56,8 @@
         </div>
 
         <div class="form-group">
-            <label for="contact">Contact details</label>
-            <input type="text" class="form-control" id="contact" name="contact" placeholder="Enter contact details"
+            <label for="contact">{{ __('labels.Contact details') }}</label>
+            <input type="text" class="form-control" id="contact" name="contact" placeholder="{{ __('labels.Enter contact details') }}"
                    value="{{ old('contact') }}">
 
             @error('contact')
@@ -66,12 +66,12 @@
         </div>
 
         <div class="form-group">
-            <label for="comments">Comments</label>
-            <input type="text" class="form-control" id="comments" name="comments" placeholder="Enter comments"
+            <label for="comments">{{ __('labels.Comments') }}</label>
+            <input type="text" class="form-control" id="comments" name="comments" placeholder="{{ __('labels.Enter comments') }}"
                    value="{{ $order->comments ?? '' }}">
         </div>
 
-        <button type="submit" class="btn btn-primary">Checkout</button>
+        <button type="submit" class="btn btn-primary">{{ __('labels.Checkout') }}</button>
     </form>
 
 </x-layout>

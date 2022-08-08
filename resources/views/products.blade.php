@@ -1,23 +1,27 @@
 <x-layout>
     <a href="/">
-        <button class="btn btn-primary my-3">To Index</button>
+        <button class="btn btn-primary my-3">{{ __('labels.To Index') }}</button>
     </a>
 
     <a href="/cart">
-        <button class="btn btn-primary my-3">To Cart</button>
+        <button class="btn btn-primary my-3">{{ __('labels.To Cart') }}</button>
+    </a>
+
+    <a href="/orders">
+        <button class="btn btn-primary my-3">{{ __('labels.To Orders Page') }}</button>
     </a>
 
     <a href="/product/add">
-        <button class="btn btn-primary my-3">Add New Product</button>
+        <button class="btn btn-primary my-3">{{ __('labels.Add new product') }}</button>
     </a>
 
     <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
+            <th scope="col">{{ __('labels.Title') }}</th>
+            <th scope="col">{{ __('labels.Description') }}</th>
+            <th scope="col">{{ __('labels.Price') }}</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -35,10 +39,10 @@
                     <form action="/products" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ $product->id }}">
-                        <button type="submit" class="btn btn-primary">Delete Product</button>
+                        <button type="submit" class="btn btn-primary">{{ __('labels.Delete product') }}</button>
                     </form>
                     <a href="/product/edit/{{ $product->id }}">
-                        <button type="button" class="btn btn-primary my-3">Edit</button>
+                        <button type="button" class="btn btn-primary my-3">{{ __('labels.Edit') }}</button>
                     </a>
                 </td>
             </tr>

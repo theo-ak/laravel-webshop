@@ -1,13 +1,13 @@
 <x-layout>
     <a href="/products">
-        <button class="btn btn-primary my-3">To Products Page</button>
+        <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
     </a>
 
     <form method="post" action="/{{ $request->path() }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"
+            <label for="title">{{ __('labels.Title') }}</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="{{ __('labels.Enter title') }}"
                    value="{{ $product->title ?? '' }}">
 
             @error('title')
@@ -16,8 +16,8 @@
         </div>
 
         <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter description"
+            <label for="description">{{ __('labels.Description') }}</label>
+            <textarea class="form-control" id="description" name="description" rows="3" placeholder="{{ __('labels.Enter description') }}"
             >{{ $product->description ?? '' }}</textarea>
 
             @error('description')
@@ -26,8 +26,8 @@
         </div>
 
         <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" step=".01" class="form-control" id="price" name="price" placeholder="Enter price"
+            <label for="price">{{ __('labels.Price') }}</label>
+            <input type="number" step=".01" class="form-control" id="price" name="price" placeholder="{{ __('labels.Enter price') }}"
                    value="{{ $product->price ?? ''}}">
 
             @error('price')
@@ -36,7 +36,7 @@
         </div>
 
         <div class="form-group">
-            <label for="img">Upload an image:</label>
+            <label for="img">{{ __('labels.Upload an image') }}:</label>
             <input type="file" class="form-control-file" id="img" name="img">
 
             @if(isset($product->img))
@@ -51,7 +51,7 @@
 
         <input type="hidden" name="id" value="{{ $product->id ?? ''}}">
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">{{ __('labels.Submit') }}</button>
     </form>
 </x-layout>
 

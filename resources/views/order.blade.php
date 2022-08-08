@@ -1,22 +1,21 @@
 <x-layout>
     <a href="/">
-        <button class="btn btn-primary my-3">To Index</button>
+        <button class="btn btn-primary my-3">{{ __('labels.To Index') }}</button>
     </a>
 
     <a href="/cart">
-        <button class="btn btn-primary my-3">To Cart</button>
+        <button class="btn btn-primary my-3">{{ __('labels.To Cart') }}</button>
     </a>
 
     <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Contact</th>
-            <th scope="col">Comments</th>
-            <th scope="col">Products</th>
-            <th scope="col">Total</th>
-            <th scope="col">Actions</th>
+            <th scope="col">{{ __('labels.Name') }}</th>
+            <th scope="col">{{ __('labels.Contact') }}</th>
+            <th scope="col">{{ __('labels.Comments') }}</th>
+            <th scope="col">{{ __('labels.Products') }}</th>
+            <th scope="col">{{ __('labels.Total') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -37,11 +36,6 @@
                 @endforeach
             </td>
             <td>{{ $order->products->sum('price') }}</td>
-            <td>
-                <a href="/order/{{ $order->id }}">
-                    <button type="button" class="btn btn-primary my-3">View Order</button>
-                </a>
-            </td>
         </tr>
         </tbody>
 </x-layout>
