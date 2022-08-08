@@ -7,14 +7,13 @@
         <button class="btn btn-primary my-3">To Cart</button>
     </a>
 
-    <table class="table text-light">
+    <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Contact</th>
             <th scope="col">Comments</th>
-            <th scope="col">Products</th>
             <th scope="col">Total</th>
             <th scope="col">Actions</th>
         </tr>
@@ -26,11 +25,6 @@
                 <td>{{ $order->name }}</td>
                 <td>{{ $order->contact }}</td>
                 <td>{{ $order->comments }}</td>
-                <td>
-                    @foreach($order->products as $product)
-                        <p>{{ $product->title }}</p>
-                    @endforeach
-                </td>
                 <td>{{ $order->products->sum('price') }}</td>
                 <td>
                     <a href="/order/{{ $order->id }}">

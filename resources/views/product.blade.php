@@ -6,46 +6,46 @@
     <form method="post" action="/{{ $request->path() }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="title" class="text-light">Title</label>
+            <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"
                    value="{{ $product->title ?? '' }}">
 
             @error('title')
-            <p class="text-white">{{ $message }}</p>
+            <p>{{ $message }}</p>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="description" class="text-light">Description</label>
+            <label for="description">Description</label>
             <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter description"
             >{{ $product->description ?? '' }}</textarea>
 
             @error('description')
-            <p class="text-white">{{ $message }}</p>
+            <p>{{ $message }}</p>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="price" class="text-light">Price</label>
+            <label for="price">Price</label>
             <input type="number" step=".01" class="form-control" id="price" name="price" placeholder="Enter price"
                    value="{{ $product->price ?? ''}}">
 
             @error('price')
-            <p class="text-white">{{ $message }}</p>
+            <p>{{ $message }}</p>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="img" class="text-light">Upload an image:</label>
+            <label for="img">Upload an image:</label>
             <input type="file" class="form-control-file" id="img" name="img">
 
             @if(isset($product->img))
-                <p class="text-white">Current image:</p>
+                <p>Current image:</p>
                 <img src="{{ asset('storage/' . $product->img) }}" alt="product image">
             @endif
 
             @error('img')
-            <p class="text-white">{{ $message }}</p>
+            <p>{{ $message }}</p>
             @enderror
         </div>
 

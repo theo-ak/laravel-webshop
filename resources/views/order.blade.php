@@ -7,7 +7,7 @@
         <button class="btn btn-primary my-3">To Cart</button>
     </a>
 
-    <table class="table text-light">
+    <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -29,7 +29,7 @@
                 @foreach($order->products as $product)
                     <p>
                         @if(!$product->trashed())
-                            <a href="/product/edit/{{ $product->id }}">{{ $product->title }}</a>
+                            <a href="/product/edit/{{ $product->id }}">{{ $product->title }}</a> - {{ $product->pivot->product_price }}
                         @else
                             {{ $product->title }}
                         @endif

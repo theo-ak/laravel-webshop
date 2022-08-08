@@ -24,7 +24,7 @@
                 <td>{{ $product->title }}</td>
                 <td>{{ $product->description }}</td>
                 <td>{{ $product->price }}</td>
-                <td><img src="{{ asset("img/$product->img") }}" alt="album image"></td>
+                <td><img src="{{ asset('storage/' . $product->img) }}" alt="album image"></td>
                 <td>
                     <form action="/" method="post">
                         @csrf
@@ -35,5 +35,6 @@
             </tr>
         @endforeach
         </tbody>
+    </table>
 </x-layout>
 

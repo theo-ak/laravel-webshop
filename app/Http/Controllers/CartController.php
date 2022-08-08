@@ -49,18 +49,14 @@ class CartController extends Controller
                 'contact' => 'required'
             ]);
 
-            $order = new Order;
-
-            $order->name = $attributes['name'];
-            $order->contact = $attributes['contact'];
-            $order->comments = $attributes['comments'] ?? '';
-            $order->save();
+            $order = Order::create($attributes);
 
             foreach ($products as $product) {
                 $order_product = new OrderProduct;
 
                 $order_product->order_id = $order->id;
                 $order_product->product_id = $product->id;
+                $order_product->product_price = $product->price;
 
                 $order_product->save();
             }

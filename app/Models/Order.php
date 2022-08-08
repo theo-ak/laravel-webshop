@@ -11,6 +11,9 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_products')->withTrashed();
+        return $this
+            ->belongsToMany(Product::class, 'order_products')
+            ->withTrashed()
+            ->withPivot('product_price');
     }
 }

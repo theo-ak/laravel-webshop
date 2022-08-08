@@ -11,7 +11,7 @@
         <button class="btn btn-primary my-3">Add New Product</button>
     </a>
 
-    <table class="table text-light">
+    <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>

@@ -7,7 +7,7 @@
         <button class="btn btn-primary my-3">To Products Page</button>
     </a>
 
-    <table class="table text-light">
+    <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -25,7 +25,7 @@
                 <td>{{ $product->title }}</td>
                 <td>{{ $product->description }}</td>
                 <td>{{ $product->price }}</td>
-                <td><img src="{{ asset("img/$product->img") }}" alt="album image"></td>
+                <td><img src="{{ asset('storage/' . $product->img) }}" alt="album image"></td>
                 <td>
                     <form action="/cart" method="post">
                         @csrf
@@ -46,7 +46,7 @@
         @csrf
 
         <div class="form-group">
-            <label for="name" class="text-light">Name</label>
+            <label for="name">Name</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
                    value="{{ old('name') }}">
 
@@ -56,7 +56,7 @@
         </div>
 
         <div class="form-group">
-            <label for="contact" class="text-light">Contact details</label>
+            <label for="contact">Contact details</label>
             <input type="text" class="form-control" id="contact" name="contact" placeholder="Enter contact details"
                    value="{{ old('contact') }}">
 
@@ -66,7 +66,7 @@
         </div>
 
         <div class="form-group">
-            <label for="comments" class="text-light">Comments</label>
+            <label for="comments">Comments</label>
             <input type="text" class="form-control" id="comments" name="comments" placeholder="Enter comments"
                    value="{{ $order->comments ?? '' }}">
         </div>
