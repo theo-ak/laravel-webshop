@@ -13,16 +13,18 @@ class CartController extends Controller
 {
     public function index(Request $request)
     {
-//        dd($request->session()->all());
         return view('cart', ['products' => Product::inCart($request)]);
     }
 
-    public function add(Request $request)
+    public function store(Request $request)
     {
         $cart = collect($request->session()->get('cart'));
-        $id = $request->input('id');
 
-        if (!$cart->search($id) && is_numeric($id) && Product::find($id)) {
+        $id = $request->validate([
+           'id' => 'required|numeric'
+        ])['id'];
+
+        if (!$cart->search($id) && Product::findOrFail($id)) {
             $request->session()->push('cart', $id);
         }
 

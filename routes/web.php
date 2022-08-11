@@ -28,7 +28,7 @@ Route::get('/', function (Request $request) {
     return view('index', ['products' => Product::notInCart($request)]);
 });
 
-Route::post('/', [CartController::class, 'add']);
+Route::post('/', [CartController::class, 'store']);
 
 Route::get('/cart', [CartController::class, 'index']);
 Route::post('/cart', [CartController::class, 'remove']);
