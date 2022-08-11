@@ -31,10 +31,15 @@ class CartController extends Controller
         return redirect('/');
     }
 
-    public function remove(Request $request)
+    public function destroy(Request $request)
     {
         $cart = collect($request->session()->get('cart'));
-        $cart->forget($cart->search($request->input('id')));
+
+        $id = $request->validate([
+            'id' => 'required|numeric'
+        ])['id'];
+
+        $cart->forget($cart->search($id));
 
         $request->session()->put('cart', $cart->toArray());
 

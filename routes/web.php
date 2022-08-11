@@ -31,7 +31,7 @@ Route::get('/', function (Request $request) {
 Route::post('/', [CartController::class, 'store']);
 
 Route::get('/cart', [CartController::class, 'index']);
-Route::post('/cart', [CartController::class, 'remove']);
+Route::post('/cart', [CartController::class, 'destroy']);
 Route::post('cart/checkout', [CartController::class, 'checkout']);
 
 Route::get('/products', [ProductController::class, 'index'])->middleware('auth');
