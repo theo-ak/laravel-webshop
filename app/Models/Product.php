@@ -40,17 +40,13 @@ class Product extends Model
 
     static function notInCart(Request $request)
     {
-        return collect(static::all())
-            ->reject(function ($product) use ($request) {
-                return in_array($product->id, $request->session()->get('cart'));
-            });
+        return static::select()
+            ->whereNotIn('id', $request->session()->get('cart'))->get();
     }
 
     static function inCart(Request $request)
     {
-        return collect(static::all())
-            ->filter(function ($product) use ($request) {
-                return in_array($product->id, $request->session()->get('cart'));
-            });
+        return static::select()
+            ->whereIn('id', $request->session()->get('cart'))->get();
     }
 }
