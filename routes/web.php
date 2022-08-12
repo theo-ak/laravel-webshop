@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -24,9 +25,7 @@ Route::post('/login', [LoginController::class, 'store'])->middleware('guest');
 
 Route::get('/logout', [LoginController::class, 'destroy'])->middleware('auth');
 
-Route::get('/', function (Request $request) {
-    return view('index', ['products' => Product::notInCart($request)]);
-});
+Route::get('/', [HomepageController::class, 'index'])->middleware('guest');
 
 Route::post('/', [CartController::class, 'store']);
 
