@@ -1,9 +1,9 @@
 <x-layout>
-    <a href="/">
+    <a href="{{ route('index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Index') }}</button>
     </a>
 
-    <a href="/products">
+    <a href="{{ route('products.index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
     </a>
 
@@ -27,7 +27,7 @@
                 <td>{{ $product->price }}</td>
                 <td><img src="{{ asset('storage/' . $product->img) }}" alt="album image"></td>
                 <td>
-                    <form action="/cart" method="post">
+                    <form action="{{ route('cart.destroy') }}" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ $product->id }}">
                         <button type="submit" class="btn btn-primary">Remove</button>
@@ -42,7 +42,7 @@
     <p>{{ $message }}</p>
     @enderror
 
-    <form action="/cart/checkout" method="post">
+    <form action="{{ route('cart.checkout') }}" method="post">
         @csrf
 
         <div class="form-group">

@@ -1,13 +1,13 @@
 <x-layout>
-    <a href="/">
+    <a href="{{ route('index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Index') }}</button>
     </a>
 
-    <a href="/cart">
+    <a href="{{ route('cart.index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Cart') }}</button>
     </a>
 
-    <a href="/products">
+    <a href="{{ route('products.index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
     </a>
 
@@ -31,7 +31,7 @@
                 <td>{{ $order->comments }}</td>
                 <td>{{ $order->products->sum('price') }}</td>
                 <td>
-                    <a href="/order/{{ $order->id }}">
+                    <a href="{{ route('order.show', ['order' => $order->id]) }}">
                         <button type="button" class="btn btn-primary my-3">{{ __('labels.View order') }}</button>
                     </a>
                 </td>

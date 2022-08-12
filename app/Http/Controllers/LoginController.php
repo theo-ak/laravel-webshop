@@ -13,7 +13,6 @@ class LoginController extends Controller
 
     public function store()
     {
-
         $credentials = request()->validate([
             'email' => 'required',
             'password' => 'required'

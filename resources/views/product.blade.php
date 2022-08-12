@@ -1,5 +1,5 @@
 <x-layout>
-    <a href="/products">
+    <a href="{{ route('products.index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
     </a>
 

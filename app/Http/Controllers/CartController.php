@@ -28,7 +28,7 @@ class CartController extends Controller
             $request->session()->push('cart', $id);
         }
 
-        return redirect('/');
+        return redirect()->route('index');
     }
 
     public function destroy(Request $request)
@@ -43,7 +43,7 @@ class CartController extends Controller
 
         $request->session()->put('cart', $cart->toArray());
 
-        return redirect('/cart');
+        return redirect()->route('cart.index');
     }
 
     public function checkout(Request $request)

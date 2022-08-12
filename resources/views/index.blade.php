@@ -1,9 +1,9 @@
 <x-layout>
-    <a href="/cart">
+    <a href="{{ route('cart.index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Cart') }}</button>
     </a>
 
-    <a href="/products">
+    <a href="{{ route('products.index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
     </a>
     <table class="table">
@@ -26,7 +26,7 @@
                 <td>{{ $product->price }}</td>
                 <td><img src="{{ asset('storage/' . $product->img) }}" alt="album image"></td>
                 <td>
-                    <form action="/" method="post">
+                    <form action="{{ route('index') }}" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ $product->id }}">
                         <button type="submit" class="btn btn-primary">{{ __('labels.Add to cart') }}</button>

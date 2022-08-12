@@ -1,9 +1,9 @@
 <x-layout>
-    <a href="/">
+    <a href="{{ route('index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Index') }}</button>
     </a>
 
-    <a href="/cart">
+    <a href="{{ route('cart.index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Cart') }}</button>
     </a>
 
@@ -28,7 +28,7 @@
                 @foreach($order->products as $product)
                     <p>
                         @if(!$product->trashed())
-                            <a href="/product/edit/{{ $product->id }}">{{ $product->title }}</a> - {{ $product->pivot->product_price }}
+                            <a href="{{ route('product.edit', ['product' => $product->id]) }}">{{ $product->title }}</a> - {{ $product->pivot->product_price }}
                         @else
                             {{ $product->title }}
                         @endif

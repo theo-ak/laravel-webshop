@@ -1,5 +1,5 @@
 <x-layout>
-    <form method="post" action="/login">
+    <form method="post" action="{{ route('login.store') }}">
         @csrf
 
         <div class="form-group">
