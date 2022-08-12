@@ -47,6 +47,8 @@ class ProductController extends Controller
             'img' => 'image'
         ]);
 
+        $attributes['img'] = $request->file('img')->store('thumbnails');
+
         $product->update($attributes);
 
         return back();

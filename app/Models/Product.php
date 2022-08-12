@@ -11,10 +11,6 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $attributes = [
-        'img' => 'image',
-    ];
-
     public function orders()
     {
         return $this->belongsToMany(Order::class);
