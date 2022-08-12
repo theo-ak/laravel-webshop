@@ -3,7 +3,7 @@
 <p>{{ __('labels.Comments') }}: {{ $order->comments }}</p>
 <p>{{ __('labels.Items ordered') }}</p>
 <ul>
-    @foreach($order->products as $product)
+    @foreach ($order->products as $product)
         <li>{{ $product->title }}</li>
     @endforeach
 </ul>

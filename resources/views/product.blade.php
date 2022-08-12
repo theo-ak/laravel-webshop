@@ -10,7 +10,7 @@
             <input type="text" class="form-control" id="title" name="title" placeholder="{{ __('labels.Enter title') }}"
                    value="{{ $product->title ?? '' }}">
 
-            @error('title')
+            @error ('title')
             <p>{{ $message }}</p>
             @enderror
         </div>
@@ -20,7 +20,7 @@
             <textarea class="form-control" id="description" name="description" rows="3" placeholder="{{ __('labels.Enter description') }}"
             >{{ $product->description ?? '' }}</textarea>
 
-            @error('description')
+            @error ('description')
             <p>{{ $message }}</p>
             @enderror
         </div>
@@ -30,7 +30,7 @@
             <input type="number" step=".01" class="form-control" id="price" name="price" placeholder="{{ __('labels.Enter price') }}"
                    value="{{ $product->price ?? ''}}">
 
-            @error('price')
+            @error ('price')
             <p>{{ $message }}</p>
             @enderror
         </div>
@@ -39,12 +39,12 @@
             <label for="img">{{ __('labels.Upload an image') }}:</label>
             <input type="file" class="form-control-file" id="img" name="img">
 
-            @if(isset($product->img))
+            @if (isset($product->img))
                 <p>Current image:</p>
                 <img src="{{ asset('storage/' . $product->img) }}" alt="product image">
             @endif
 
-            @error('img')
+            @error ('img')
             <p>{{ $message }}</p>
             @enderror
         </div>

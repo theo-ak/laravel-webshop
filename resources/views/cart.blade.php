@@ -19,7 +19,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($products as $product)
+        @foreach ($products as $product)
             <tr>
                 <th scope="row">{{ $product->id }}</th>
                 <td>{{ $product->title }}</td>
@@ -38,7 +38,7 @@
         </tbody>
     </table>
 
-    @error('cart')
+    @error ('cart')
     <p>{{ $message }}</p>
     @enderror
 
@@ -50,7 +50,7 @@
             <input type="text" class="form-control" id="name" name="name" placeholder="{{ __('labels.Enter name') }}"
                    value="{{ old('name') }}">
 
-            @error('name')
+            @error ('name')
             <p>{{ $message }}</p>
             @enderror
         </div>
@@ -60,7 +60,7 @@
             <input type="text" class="form-control" id="contact" name="contact" placeholder="{{ __('labels.Enter contact details') }}"
                    value="{{ old('contact') }}">
 
-            @error('contact')
+            @error ('contact')
             <p>{{ $message }}</p>
             @enderror
         </div>

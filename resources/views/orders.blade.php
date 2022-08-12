@@ -23,7 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($orders as $order)
+        @foreach ($orders as $order)
             <tr>
                 <th scope="row">{{ $order->id }}</th>
                 <td>{{ $order->name }}</td>

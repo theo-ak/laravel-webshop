@@ -28,7 +28,7 @@
         </thead>
 
         <tbody>
-        @foreach($products as $product)
+        @foreach ($products as $product)
             <tr>
                 <th scope="row">{{ $product->id }}</th>
                 <td>{{ $product->title }}</td>

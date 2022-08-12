@@ -25,9 +25,9 @@
             <td>{{ $order->contact }}</td>
             <td>{{ $order->comments }}</td>
             <td>
-                @foreach($order->products as $product)
+                @foreach ($order->products as $product)
                     <p>
-                        @if(!$product->trashed())
+                        @if (!$product->trashed())
                             <a href="{{ route('product.edit', ['product' => $product->id]) }}">{{ $product->title }}</a> - {{ $product->pivot->product_price }}
                         @else
                             {{ $product->title }}

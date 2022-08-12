@@ -6,7 +6,7 @@
             <label for="email">{{ __('labels.Email address') }}</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="{{ __('labels.Enter email') }}" value="{{ old('email') }}">
 
-            @error('email')
+            @error ('email')
             <p>{{ $message }}</p>
             @enderror
         </div>
