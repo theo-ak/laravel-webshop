@@ -8,6 +8,7 @@ return [
     'To Index' => 'To Index',
     'To Products Page' => 'To Products Page',
     'Add to cart' => 'Add to cart',
+    'Remove' => 'Remove',
     'Name' => 'Name',
     'Contact details' => 'Contact details',
     'Comments' => 'Comments',

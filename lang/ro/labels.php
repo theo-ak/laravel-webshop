@@ -9,6 +9,7 @@ return [
     'To Products Page' => 'Pagina produse',
     'Add to cart' => 'Adauga in cart',
     'Name' => 'Nume',
+    'Remove' => 'Stergeti',
     'Contact details' => 'Date contact',
     'Comments' => 'Comentarii',
     'Checkout' => 'Checkout',

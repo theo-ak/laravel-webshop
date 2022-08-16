@@ -33,7 +33,9 @@ Route::post('add-to-cart/{id}', [CartController::class, 'store']);
 //Route::post('/', [CartController::class, 'store'])->name('index.store');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::get('/fetch-cart-products', [CartController::class, 'fetchCartProducts']);
+//Route::post('/cart', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::post('/remove-from-cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::post('cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index')->middleware('auth');

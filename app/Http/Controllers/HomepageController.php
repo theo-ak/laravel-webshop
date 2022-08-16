@@ -19,7 +19,5 @@ class HomepageController extends Controller
         return response()->json([
             'products' => $products
         ]);
-
-//        return view('index', ['products' => Product::notInCart($request)]);
     }
 }
