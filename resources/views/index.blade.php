@@ -1,7 +1,4 @@
 <x-layout>
-    <a href="{{ route('cart.index') }}">
-        <button class="btn btn-primary my-3">{{ __('labels.To Cart') }}</button>
-    </a>
 
     <a href="{{ route('products.index') }}">
         <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
@@ -18,6 +15,33 @@
         <table class="table list"></table>
 
         <a href="#" class="btn btn-primary button">Go to index</a>
+
+        <!-- The checkout form -->
+        <div class="form-group">
+            <label for="name">{{ __('labels.Name') }}</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="{{ __('labels.Enter name') }}"
+                   value="{{ old('name') }}"
+            >
+
+            <p class="text-danger name-error"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="contact">{{ __('labels.Contact details') }}</label>
+            <input type="text" class="form-control" id="contact" name="contact" placeholder="{{ __('labels.Enter contact details') }}"
+                   value="{{ old('contact') }}"
+            >
+
+            <p class="text-danger contact-error"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="comments">{{ __('labels.Comments') }}</label>
+            <input type="text" class="form-control" id="comments" name="comments" placeholder="{{ __('labels.Enter comments') }}"
+                   value="{{ $order->comments ?? '' }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary checkout">{{ __('labels.Checkout') }}</button>
     </div>
 
     @section('scripts')
@@ -88,6 +112,40 @@
                         url: '/remove-from-cart/' + productId,
                         success: function() {
                             window.onhashchange('#cart');
+                        }
+                    });
+                });
+
+                $(document).on('click', '.checkout', function (e) {
+                    e.preventDefault();
+
+                    data = {
+                        'name': $('#name').val(),
+                        'contact': $('#contact').val(),
+                        'comments': $('#comments').val()
+                    }
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/checkout',
+                        data: data,
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status === 400) {
+                                $('.name-error').html('<p class="text-danger name-error small">' + response.errors.name ?? '' + '</p>');
+                                $('.contact-error').html('<p class="text-danger name-error small">' + response.errors.contact ?? '' + '</p>');
+                            } else {
+                                window.location.hash = '#';
+                                $('#name').val('');
+                                $('#contact').val('');
+                                $('#comments').val('');
+                            }
                         }
                     });
                 });

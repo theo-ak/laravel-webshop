@@ -8,6 +8,7 @@ use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -56,31 +57,38 @@ class CartController extends Controller
         $products = Product::inCart($request);
 
         if (!$products->isEmpty()) {
-            $attributes = $request->validate([
+            $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'contact' => 'required'
             ]);
 
-            $order = Order::create($attributes);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 400,
+                    'errors' => $validator->messages()
+                ]);
+            } else {
+                $attributes = $validator->validated();
+                $order = Order::create($attributes);
 
-            foreach ($products as $product) {
-                $order_product = new OrderProduct;
+                foreach ($products as $product) {
+                    $order_product = new OrderProduct;
 
-                $order_product->order_id = $order->id;
-                $order_product->product_id = $product->id;
-                $order_product->product_price = $product->price;
+                    $order_product->order_id = $order->id;
+                    $order_product->product_id = $product->id;
+                    $order_product->product_price = $product->price;
 
-                $order_product->save();
+                    $order_product->save();
+                }
+
+                Mail::to('shop-admin@shop.com')->send(new OrderDetails($order));
+
+                $request->session()->put('cart', []);
+
+                return response()->json([
+                   'status' => 200
+                ]);
             }
-
-            Mail::to('shop-admin@shop.com')->send(new OrderDetails($order));
-
-            $request->session()->put('cart', []);
-            return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
         }
-
-        return back()
-            ->withInput()
-            ->withErrors(['cart' => 'The cart is empty.']);
     }
 }
