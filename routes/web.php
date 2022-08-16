@@ -26,8 +26,11 @@ Route::post('/login', [LoginController::class, 'store'])->name('login.store')->m
 Route::get('/logout', [LoginController::class, 'destroy'])->name('logout')->middleware('auth');
 
 Route::get('/', [HomepageController::class, 'index'])->name('index');
+Route::get('fetch-products', [HomepageController::class, 'fetchProducts']);
 
-Route::post('/', [CartController::class, 'store'])->name('index.store');
+Route::post('add-to-cart/{id}', [CartController::class, 'store']);
+
+//Route::post('/', [CartController::class, 'store'])->name('index.store');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart', [CartController::class, 'destroy'])->name('cart.destroy');

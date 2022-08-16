@@ -16,19 +16,17 @@ class CartController extends Controller
         return view('cart', ['products' => Product::inCart($request)]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $cart = collect($request->session()->get('cart'));
-
-        $id = $request->validate([
-           'id' => 'required|numeric'
-        ])['id'];
 
         if (!$cart->search($id) && Product::findOrFail($id)) {
             $request->session()->push('cart', $id);
         }
 
-        return redirect()->route('index');
+        return response()->json([
+            'status' => 200
+        ]);
     }
 
     public function destroy(Request $request)
