@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Route::get('/login', [LoginController::class, 'create'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'store'])->name('login.store')->middleware('guest');
+Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 
 Route::get('/logout', [LoginController::class, 'destroy'])->name('logout')->middleware('auth');
 
@@ -39,8 +39,8 @@ Route::post('/remove-from-cart/{id}', [CartController::class, 'destroy'])->name(
 //Route::post('cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/checkout', [CartController::class, 'checkout']);
 
-Route::get('/products', [ProductController::class, 'index'])->name('products.index')->middleware('auth');
-Route::post('/products', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
+Route::get('/fetch-all-products', [ProductController::class, 'index'])->name('products.index')->middleware('auth');
+//Route::post('/products', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
 
 Route::get('/product/add', [ProductController::class, 'create'])->name('product.create')->middleware('auth');
 Route::post('/product/add', [ProductController::class, 'store'])->name('product.store')->middleware('auth');

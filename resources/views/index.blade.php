@@ -1,9 +1,19 @@
 <x-layout>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-        {{ __('labels.To Products Page') }}
-    </button>
+    @auth()
+        <a href="#products">
+            <button type="button" class="btn btn-primary my-3">
+                {{ __('labels.To Products Page') }}
+            </button>
+        </a>
+    @endauth
+
+    @guest()
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+            {{ __('labels.To Products Page') }}
+        </button>
+    @endguest
 
     <!-- Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -82,10 +92,19 @@
         <button type="submit" class="btn btn-primary checkout">{{ __('labels.Checkout') }}</button>
     </div>
 
-    @section('scripts')
+    <!-- The products page -->
+    <div class="page products" id="products">
+        <p id="login-message">You must be logged in to see the products</p>
+
+        <table class="table list"></table>
+
+        <a href="#" class="btn btn-primary button">Go to index</a>
+    </div>
+
+@section('scripts')
         <script>
             $(document).ready(function () {
-                function renderList(products, buttonType) {
+                function renderList(products) {
                     html = [
                         '<thead>',
                             '<tr>',
@@ -93,23 +112,26 @@
                                 '<th scope="col">Description</th>',
                                 '<th scope="col">Price</th>',
                             '</tr>',
-                        '</thead>'
+                        '</thead>',
+                        '<tbody>'
                     ].join('');
 
                     $.each(products, function (key, product) {
                         html += [
-                            '<tbody>',
-                                '<tr>',
-                                    '<td>' + product.title + '</td>',
-                                    '<td>' + product.description + '</td>',
-                                    '<td>' + product.price + '</td>',
-                                    buttonType === 'add' ?
-                                        '<td><button type="submit" value="' + product.id + '" class="btn btn-primary add-to-cart">Add to Cart</button></td>' :
-                                        '<td><button type="submit" value="' + product.id + '" class="btn btn-primary remove-from-cart">Remove</button></td>',
-                                '</tr>',
-                            '</tbody>'
+                            '<tr>',
+                                '<td>' + product.title + '</td>',
+                                '<td>' + product.description + '</td>',
+                                '<td>' + product.price + '</td>',
+                                '<td class="action-buttons">',
+                                    '<button type="submit" value="' + product.id + '" class="btn btn-primary mb-2 add-remove"></button>',
+                                    '<button type="submit" value="' + product.id + '" class="btn btn-primary edit-product">',
+                                '</td>',
+                                '<td class="action-buttons"></button></td>',
+                            '</tr>'
                         ].join('');
                     });
+
+                    html += '</tbody>';
 
                     return html;
                 }
@@ -219,6 +241,10 @@
                             } else if (response.status === 401) {
                                 $('.email-error').text(response.message ? response.message : '');
                                 $('#password').val('');
+                            } else {
+                                window.location.hash = '#products';
+
+                                $('#loginModal').modal('hide');
                             }
                         }
                     });
@@ -238,8 +264,26 @@
                                 url: '/fetch-cart-products',
                                 dataType: 'json',
                                 success: function (response) {
-                                    $('.cart .list').html(renderList(response.products, 'remove'));
+                                    $('.cart .list').html(renderList(response.products));
+                                    $('.action-buttons .add-remove')
+                                        .text('{{ __('labels.Remove') }}')
+                                        .addClass('remove-from-cart');
+                                    $('.action-buttons .edit-product').hide();
                                 }
+                            });
+                            break;
+                        case '#products':
+                            $('#login-message').hide();
+                            $('.products').show();
+                            $.ajax({
+                               type: 'get',
+                               url: '/fetch-all-products',
+                               dataType: 'json',
+                               success: function (response) {
+                                   $('.products .list').html(renderList(response.products));
+                                   $('.action-buttons .add-remove').text('{{ __('labels.Delete product') }}').addClass('delete-product');
+                                   $('.action-buttons .edit-product').text('{{ __('labels.Edit') }}');
+                               }
                             });
                             break;
                         default:
@@ -249,7 +293,11 @@
                                 url:'/fetch-products',
                                 dataType: 'json',
                                 success: function (response) {
-                                    $('.index .list').html(renderList(response.products, 'add'));
+                                    $('.index .list').html(renderList(response.products));
+                                    $('.action-buttons .add-remove')
+                                        .text('{{ __('labels.Add to cart') }}')
+                                        .addClass('add-to-cart');
+                                    $('.action-buttons .edit-product').hide();
                                 }
                             });
                             break;

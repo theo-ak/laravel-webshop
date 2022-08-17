@@ -9,7 +9,12 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return view('products', ['products' => Product::all()]);
+        $products = Product::all();
+
+        return response()->json([
+            'products' => $products
+        ]);
+//        return view('products', ['products' => Product::all()]);
     }
 
     public function create(Request $request)
