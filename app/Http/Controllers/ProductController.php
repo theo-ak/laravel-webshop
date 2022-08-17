@@ -59,11 +59,14 @@ class ProductController extends Controller
         return back();
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request, $id)
     {
-        Product::find($request->input('id'))->delete();
+        Product::find($id)->delete();
         Product::removeFromCart($request);
 
-        return redirect('/products');
+        return response()->json([
+            'status' => 200,
+            'message' => 'Product deleted successfully'
+        ]);
     }
 }

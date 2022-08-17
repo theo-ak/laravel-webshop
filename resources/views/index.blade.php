@@ -49,10 +49,13 @@
         </div>
     </div>
 
+    <!-- Success message -->
+    <div id="success-message" class="alert alert-success alert-dismissible fade show" style="display: none">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <!-- The index page -->
     <div class="page index">
-        <div id="success-message"></div>
-
         <table class="table list"></table>
 
         <a href="#cart" class="btn btn-primary button">Go to cart</a>
@@ -205,9 +208,9 @@
                                 $('#name').val('');
                                 $('#contact').val('');
                                 $('#comments').val('');
-                                $('#success-message').addClass('alert alert-success alert-dismissible fade show');
-                                $('#success-message').text(response.message);
-                                $('#success-message').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
+                                $('#success-message')
+                                    .append(response.message)
+                                    .show();
                             }
                         }
                     });
@@ -243,9 +246,34 @@
                                 $('#password').val('');
                             } else {
                                 window.location.hash = '#products';
-
                                 $('#loginModal').modal('hide');
+                                $('#success-message')
+                                    .append(response.message)
+                                    .show();
                             }
+                        }
+                    });
+                });
+
+                $(document).on('click', '.delete-product', function (e) {
+                    e.preventDefault();
+
+                    productId = $(this).val();
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/delete/' + productId,
+                        success: function(response) {
+                            window.onhashchange();
+                            $('#success-message')
+                                .append(response.message)
+                                .show();
                         }
                     });
                 });

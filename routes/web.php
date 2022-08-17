@@ -41,6 +41,7 @@ Route::post('/checkout', [CartController::class, 'checkout']);
 
 Route::get('/fetch-all-products', [ProductController::class, 'index'])->name('products.index')->middleware('auth');
 //Route::post('/products', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
+Route::post('/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
 
 Route::get('/product/add', [ProductController::class, 'create'])->name('product.create')->middleware('auth');
 Route::post('/product/add', [ProductController::class, 'store'])->name('product.store')->middleware('auth');
