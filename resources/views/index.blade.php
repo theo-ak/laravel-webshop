@@ -1,9 +1,45 @@
 <x-layout>
 
-    <a href="{{ route('products.index') }}">
-        <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
-    </a>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+        {{ __('labels.To Products Page') }}
+    </button>
 
+    <!-- Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">{{ __('labels.Login') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label for="email">{{ __('labels.Email') }}</label>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="{{ __('labels.Enter email') }}"
+                        >
+
+                        <p class="text-danger email-error small"></p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="password">{{ __('labels.Password') }}</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('labels.Enter password') }}"
+                        >
+
+                        <p class="text-danger password-error small"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('labels.Close') }}</button>
+                    <button type="submit" class="btn btn-primary login">{{ __('labels.Login') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The index page -->
     <div class="page index">
         <div id="success-message"></div>
 
@@ -25,7 +61,7 @@
                    value="{{ old('name') }}"
             >
 
-            <p class="text-danger name-error"></p>
+            <p class="text-danger name-error small"></p>
         </div>
 
         <div class="form-group">
@@ -34,7 +70,7 @@
                    value="{{ old('contact') }}"
             >
 
-            <p class="text-danger contact-error"></p>
+            <p class="text-danger contact-error small"></p>
         </div>
 
         <div class="form-group">
@@ -140,8 +176,8 @@
                         dataType: 'json',
                         success: function (response) {
                             if (response.status === 400) {
-                                $('.name-error').html('<p class="text-danger name-error small">' + response.errors.name ?? '' + '</p>');
-                                $('.contact-error').html('<p class="text-danger name-error small">' + response.errors.contact ?? '' + '</p>');
+                                $('.name-error').text(response.errors.name ? response.errors.name : '');
+                                $('.contact-error').text(response.errors.contact ? response.errors.contact : '');
                             } else {
                                 window.location.hash = '#';
                                 $('#name').val('');
@@ -150,6 +186,39 @@
                                 $('#success-message').addClass('alert alert-success alert-dismissible fade show');
                                 $('#success-message').text(response.message);
                                 $('#success-message').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
+                            }
+                        }
+                    });
+                });
+
+                $(document).on('click', '.login', function (e) {
+                    e.preventDefault();
+
+                    data = {
+                        'email': $('#email').val(),
+                        'password': $('#password').val()
+                    }
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/login',
+                        data: data,
+                        dataType: 'json',
+                        success: function (response) {
+                            $('.email-error').html('');
+                            $('.password-error').html('');
+                            if (response.status === 400) {
+                                $('.email-error').text(response.errors.email ? response.errors.email : '');
+                                $('.password-error').text(response.errors.password ? response.errors.password : '');
+                            } else if (response.status === 401) {
+                                $('.email-error').text(response.message ? response.message : '');
+                                $('#password').val('');
                             }
                         }
                     });

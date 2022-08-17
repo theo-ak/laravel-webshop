@@ -36,5 +36,8 @@ return [
     'Password' => 'Parola',
     'Login' => 'Autentificare',
     'To Orders Page' => 'Pagina comenzi',
-    'Order placed successfully' => 'Comanda plasata cu succes'
+    'Order placed successfully' => 'Comanda plasata cu succes',
+    'Email' => 'Email',
+    'Enter password' => 'Introduceti parola',
+    'Close' => "Inchideti"
 ];

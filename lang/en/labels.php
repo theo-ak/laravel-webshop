@@ -36,5 +36,8 @@ return [
     'Password' => 'Password',
     'Login' => 'Login',
     'To Orders Page' => 'To Orders Page',
-    'Order placed successfully' => 'Order placed successfully'
+    'Order placed successfully' => 'Order placed successfully',
+    'Email' => 'Email',
+    'Enter password' => 'Enter password',
+    'Close' => "Close"
 ];

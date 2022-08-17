@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -11,23 +12,31 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $credentials = request()->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required',
             'password' => 'required'
         ]);
 
-        if (auth()->attempt($credentials)) {
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages()
+            ]);
+        } elseif (auth()->attempt($validator->validated())) {
             session()->regenerate();
 
-            return redirect('/');
+            return response()->json([
+               'status' => 200,
+               'message' => 'Login successful'
+            ]);
+        } else {
+            return response()->json([
+               'status' => 401,
+               'message' => 'Invalid credentials'
+            ]);
         }
-
-        return back()
-            ->withInput()
-            ->withErrors(['email' => 'Invalid credentials.']);
-
     }
 
     public function destroy()
