@@ -86,7 +86,8 @@ class CartController extends Controller
                 $request->session()->put('cart', []);
 
                 return response()->json([
-                   'status' => 200
+                   'status' => 200,
+                   'message' => __('labels.Order placed successfully')
                 ]);
             }
         }

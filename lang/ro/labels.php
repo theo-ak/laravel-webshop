@@ -35,5 +35,6 @@ return [
     'Enter email' => 'Introduceti un email',
     'Password' => 'Parola',
     'Login' => 'Autentificare',
-    'To Orders Page' => 'Pagina comenzi'
+    'To Orders Page' => 'Pagina comenzi',
+    'Order placed successfully' => 'Comanda plasata cu succes'
 ];

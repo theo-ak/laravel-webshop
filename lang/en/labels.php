@@ -35,5 +35,6 @@ return [
     'Enter email' => 'Enter email',
     'Password' => 'Password',
     'Login' => 'Login',
-    'To Orders Page' => 'To Orders Page'
+    'To Orders Page' => 'To Orders Page',
+    'Order placed successfully' => 'Order placed successfully'
 ];
