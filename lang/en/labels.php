@@ -39,5 +39,6 @@ return [
     'Order placed successfully' => 'Order placed successfully',
     'Email' => 'Email',
     'Enter password' => 'Enter password',
-    'Close' => "Close"
+    'Close' => "Close",
+    'Add' => 'Add'
 ];

@@ -6,14 +6,12 @@
                 {{ __('labels.To Products Page') }}
             </button>
         </a>
-    @endauth
-
-    @guest()
-        <!-- Button trigger modal -->
+    @else
+    <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#loginModal">
             {{ __('labels.To Products Page') }}
         </button>
-    @endguest
+    @endauth
 
     <!-- Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -51,6 +49,7 @@
 
     <!-- Success message -->
     <div id="success-message" class="alert alert-success alert-dismissible fade show" style="display: none">
+        <div id="success-text"></div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
@@ -97,9 +96,19 @@
 
     <!-- The products page -->
     <div class="page products" id="products">
-        <p id="login-message">You must be logged in to see the products</p>
+        @guest()
+            <p id="login-message">You must be logged in to see the products</p>
+        @endguest
 
-        <table class="table list"></table>
+        @auth()
+            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+                {{ __('labels.Add new product') }}
+            </button>
+
+            <x-product-modal />
+
+            <table class="table list"></table>
+        @endauth
 
         <a href="#" class="btn btn-primary button">Go to index</a>
     </div>
@@ -127,9 +136,8 @@
                                 '<td>' + product.price + '</td>',
                                 '<td class="action-buttons">',
                                     '<button type="submit" value="' + product.id + '" class="btn btn-primary mb-2 add-remove"></button>',
-                                    '<button type="submit" value="' + product.id + '" class="btn btn-primary edit-product">',
+                                    '<button type="submit" value="' + product.id + '" class="btn btn-primary edit-product"></button>',
                                 '</td>',
-                                '<td class="action-buttons"></button></td>',
                             '</tr>'
                         ].join('');
                     });
@@ -245,8 +253,9 @@
                                 $('.email-error').text(response.message ? response.message : '');
                                 $('#password').val('');
                             } else {
-                                window.location.hash = '#products';
                                 $('#loginModal').modal('hide');
+                                window.location = '#products';
+                                location.reload();
                                 $('#success-message')
                                     .append(response.message)
                                     .show();
@@ -271,9 +280,47 @@
                         url: '/delete/' + productId,
                         success: function(response) {
                             window.onhashchange();
-                            $('#success-message')
-                                .append(response.message)
-                                .show();
+                            $('#success-text')
+                                .text(response.message);
+                            $('#success-message').show();
+                        }
+                    });
+                });
+
+                $(document).on('click', '.add-product', function (e) {
+                    e.preventDefault();
+
+                    data = {
+                        'title': $('#title').val(),
+                        'description': $('#description').val(),
+                        'price': $('#price').val()
+                    }
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/add/',
+                        data: data,
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status === 400) {
+                                $('.title-error').text(response.errors.title ? response.errors.title : '');
+                                $('.description-error').text(response.errors.description ? response.errors.description : '');
+                                $('.price-error').text(response.errors.price ? response.errors.price : '');
+                            } else {
+                                $('#title').val('');
+                                $('#description').val('');
+                                $('#price').val('');
+                                $('#productModal').modal('hide');
+                                $('#success-text').text(response.message);
+                                $('#success-message').show();
+                                window.onhashchange();
+                            }
                         }
                     });
                 });
@@ -301,7 +348,6 @@
                             });
                             break;
                         case '#products':
-                            $('#login-message').hide();
                             $('.products').show();
                             $.ajax({
                                type: 'get',

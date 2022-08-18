@@ -43,8 +43,8 @@ Route::get('/fetch-all-products', [ProductController::class, 'index'])->name('pr
 //Route::post('/products', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
 Route::post('/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
 
-Route::get('/product/add', [ProductController::class, 'create'])->name('product.create')->middleware('auth');
-Route::post('/product/add', [ProductController::class, 'store'])->name('product.store')->middleware('auth');
+//Route::get('/product/add', [ProductController::class, 'create'])->name('product.create')->middleware('auth');
+Route::post('/add', [ProductController::class, 'store'])->name('product.store')->middleware('auth');
 
 Route::get('/product/edit/{product}', [ProductController::class, 'edit'])->name('product.edit')->middleware('auth');
 Route::post('/product/edit/{product}', [ProductController::class, 'update'])->name('product.update')->middleware('auth');

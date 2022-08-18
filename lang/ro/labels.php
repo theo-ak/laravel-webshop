@@ -39,5 +39,6 @@ return [
     'Order placed successfully' => 'Comanda plasata cu succes',
     'Email' => 'Email',
     'Enter password' => 'Introduceti parola',
-    'Close' => "Inchideti"
+    'Close' => "Inchideti",
+    'Add' => 'Adaugati'
 ];

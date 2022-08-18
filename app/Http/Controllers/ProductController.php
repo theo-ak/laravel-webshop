@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -14,7 +15,6 @@ class ProductController extends Controller
         return response()->json([
             'products' => $products
         ]);
-//        return view('products', ['products' => Product::all()]);
     }
 
     public function create(Request $request)
@@ -24,18 +24,26 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $attributes = $request->validate([
+        $validator = Validator::make($request->all(), [
             'title' => 'required',
             'description' => 'required',
             'price' => 'required|numeric',
-            'img' => 'image'
         ]);
 
-        $attributes['img'] = $request->file('img')->store('thumbnails');
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages()
+            ]);
+        } else {
+            $product = Product::create($validator->validated());
 
-        $product = Product::create($attributes);
-
-        return redirect()->action([ProductController::class, 'edit'], ['product' => $product, 'request' => $request]);
+            return response()->json([
+               'status' => 200,
+               'message' => 'Product added successfully',
+               'product' => $product
+            ]);
+        }
     }
 
     public function edit(Product $product, Request $request)
