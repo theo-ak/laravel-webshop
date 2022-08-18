@@ -8,9 +8,9 @@
         </a>
     @else
     <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+        <x-modal-button target="#loginModal">
             {{ __('labels.To Products Page') }}
-        </button>
+        </x-modal-button>
     @endauth
 
     <!-- Modal -->
@@ -105,9 +105,11 @@
                 {{ __('labels.Add new product') }}
             </button>
 
-            <x-product-modal />
+            <x-product-modal buttonType="add-product"/>
+            <x-product-modal buttonType="edit-product"/>
 
-            <table class="table list"></table>
+
+                <table class="table list"></table>
         @endauth
 
         <a href="#" class="btn btn-primary button">Go to index</a>
@@ -356,7 +358,12 @@
                                success: function (response) {
                                    $('.products .list').html(renderList(response.products));
                                    $('.action-buttons .add-remove').text('{{ __('labels.Delete product') }}').addClass('delete-product');
-                                   $('.action-buttons .edit-product').text('{{ __('labels.Edit') }}');
+                                   $('.action-buttons .edit-product')
+                                       .text('{{ __('labels.Edit') }}')
+                                       .attr({
+                                           'data-bs-toggle': 'modal',
+                                           'data-bs-target': '#productModal'
+                                       });
                                }
                             });
                             break;

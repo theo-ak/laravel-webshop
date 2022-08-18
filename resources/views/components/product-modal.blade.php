@@ -1,4 +1,4 @@
-<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,7 +33,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('labels.Close') }}</button>
-                <button type="submit" class="btn btn-primary add-product">{{ __('labels.Add') }}</button>
+                <button type="submit" {{ $attributes->merge(['class' => 'btn btn-primary '.$buttonType]) }}>{{ __('labels.Add') }}</button>
             </div>
         </div>
     </div>
