@@ -116,6 +116,8 @@
 
     <!-- The orders page -->
     <div class="page orders" id="orders">
+        <x-order-modal />
+
         <table class="table list"></table>
     </div>
 
@@ -435,6 +437,30 @@
                     });
                 });
 
+                $(document).on('click', '.view-order', function (e) {
+                    e.preventDefault();
+
+                    orderId = $(this).val();
+
+                    $('#orderModal #products').html('');
+
+                    $.ajax({
+                        type: 'get',
+                        url: '/order/' + orderId,
+                        dataType: 'json',
+                        success: function (response) {
+                            $('#orderModal #name').text(response.order.name);
+                            $('#orderModal #contact').text(response.order.contact);
+                            $('#orderModal #comments').text(response.order.comments);
+                            $.each(response.orderProducts, function (key, orderProduct) {
+                                $('#orderModal #products')
+                                    .append('<li>' + orderProduct.title + ' - ' +orderProduct.price + '</li>');
+                            });
+                            $('#orderModal #total').text(response.order.total);
+                        }
+                    });
+                });
+
                 /**
                  * URL hash change handler
                  */
@@ -482,11 +508,15 @@
                                 url: '/fetch-orders',
                                 dataType: 'json',
                                 success: function (response) {
-                                    console.log(response)
                                     $('.orders .list').html(renderOrderList(response.orders));
-                                    $('.view-order').text('{{ __('labels.View order') }}');
+                                    $('.view-order')
+                                        .text('{{ __('labels.View order') }}')
+                                        .attr({
+                                            'data-bs-toggle': 'modal',
+                                            'data-bs-target': '#orderModal'
+                                        });
                                 }
-                            })
+                            });
                             break;
                         default:
                             $('.index').show();

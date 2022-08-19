@@ -17,8 +17,14 @@ class OrderController extends Controller
         ]);
     }
 
-    public function show(Order $order)
+    public function show($id)
     {
-        return view('order', ['order' => $order]);
+        $order = Order::findOrFail($id);
+
+        return response()->json([
+           'status' => 200,
+           'order' => $order,
+           'orderProducts' => $order->products
+        ]);
     }
 }
