@@ -40,5 +40,6 @@ return [
     'Email' => 'Email',
     'Enter password' => 'Enter password',
     'Close' => "Close",
-    'Add' => 'Add'
+    'Add' => 'Add',
+    'Admin' => 'Admin'
 ];

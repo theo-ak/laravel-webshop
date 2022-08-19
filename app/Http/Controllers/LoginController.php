@@ -29,7 +29,8 @@ class LoginController extends Controller
 
             return response()->json([
                'status' => 200,
-               'message' => 'Login successful'
+               'message' => 'Login successful',
+               'redirect_url' => route('products.index')
             ]);
         } else {
             return response()->json([

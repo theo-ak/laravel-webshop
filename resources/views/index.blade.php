@@ -1,51 +1,19 @@
 <x-layout>
 
-    @auth()
-        <a href="#products">
+
+    @guest()
+        <a href="#login">
             <button type="button" class="btn btn-primary my-3">
-                {{ __('labels.To Products Page') }}
+                {{ __('labels.Login') }}
             </button>
         </a>
     @else
-    <!-- Button trigger modal -->
-        <x-modal-button target="#loginModal">
-            {{ __('labels.To Products Page') }}
-        </x-modal-button>
-    @endauth
-
-    <!-- Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">{{ __('labels.Login') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <label for="email">{{ __('labels.Email') }}</label>
-                        <input type="text" class="form-control" id="email" name="email" placeholder="{{ __('labels.Enter email') }}"
-                        >
-
-                        <p class="text-danger email-error small"></p>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="password">{{ __('labels.Password') }}</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('labels.Enter password') }}"
-                        >
-
-                        <p class="text-danger password-error small"></p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('labels.Close') }}</button>
-                    <button type="submit" class="btn btn-primary login">{{ __('labels.Login') }}</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        <a href="#products">
+            <button type="button" class="btn btn-primary my-3">
+                {{ __('labels.Admin') }}
+            </button>
+        </a>
+    @endguest
 
     <!-- Success message -->
     <div id="success-message" class="alert alert-success alert-dismissible fade show" style="display: none">
@@ -61,65 +29,18 @@
     </div>
 
     <!-- The cart page -->
-    <div class="page cart" id="cart">
-        <table class="table list"></table>
+    @include('cart')
 
-        <a href="#" class="btn btn-primary button">Go to index</a>
-
-        <!-- The checkout form -->
-        <div class="form-group">
-            <label for="name">{{ __('labels.Name') }}</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="{{ __('labels.Enter name') }}"
-                   value="{{ old('name') }}"
-            >
-
-            <p class="text-danger name-error small"></p>
-        </div>
-
-        <div class="form-group">
-            <label for="contact">{{ __('labels.Contact details') }}</label>
-            <input type="text" class="form-control" id="contact" name="contact" placeholder="{{ __('labels.Enter contact details') }}"
-                   value="{{ old('contact') }}"
-            >
-
-            <p class="text-danger contact-error small"></p>
-        </div>
-
-        <div class="form-group">
-            <label for="comments">{{ __('labels.Comments') }}</label>
-            <input type="text" class="form-control" id="comments" name="comments" placeholder="{{ __('labels.Enter comments') }}"
-                   value="{{ $order->comments ?? '' }}">
-        </div>
-
-        <button type="submit" class="btn btn-primary checkout">{{ __('labels.Checkout') }}</button>
-    </div>
+    <!-- The login page -->
+    @include('login')
 
     <!-- The products page -->
     <div class="page products" id="products">
-        @guest()
-            <p id="login-message">You must be logged in to see the products</p>
-        @endguest
-
-        @auth()
-            <button type="submit" class="btn btn-primary add-product" data-bs-toggle="modal" data-bs-target="#productModal">
-                {{ __('labels.Add new product') }}
-            </button>
-
-            <x-add-product-modal />
-            <x-edit-product-modal />
-
-            <table class="table list"></table>
-        @endauth
-
-        <a href="#" class="btn btn-primary button">Go to index</a>
+    @include('products')
     </div>
 
     <!-- The orders page -->
-    <div class="page orders" id="orders">
-        <x-order-modal />
-
-        <table class="table list"></table>
-    </div>
+    @include('orders')
 
 @section('scripts')
         <script>
@@ -294,9 +215,8 @@
                                 $('.email-error').text(response.message ? response.message : '');
                                 $('#password').val('');
                             } else {
-                                $('#loginModal').modal('hide');
+                                $('.products').load(document.URL + '.products');
                                 window.location = '#products';
-                                location.reload();
                                 $('#success-message')
                                     .append(response.message)
                                     .show();
@@ -482,6 +402,9 @@
                                     $('.action-buttons .edit-product').hide();
                                 }
                             });
+                            break;
+                        case '#login':
+                            $('.login').show();
                             break;
                         case '#products':
                             $('.products').show();

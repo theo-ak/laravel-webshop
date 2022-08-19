@@ -1,20 +1,23 @@
-<x-layout>
-    <form method="post" action="{{ route('login.store') }}">
-        @csrf
+@guest()
+    <div class="page login" id="login">
+        <div class="form-group mb-3">
+            <label for="email">{{ __('labels.Email') }}</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="{{ __('labels.Enter email') }}"
+            >
 
-        <div class="form-group">
-            <label for="email">{{ __('labels.Email address') }}</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="{{ __('labels.Enter email') }}" value="{{ old('email') }}">
-
-            @error ('email')
-            <p>{{ $message }}</p>
-            @enderror
+            <p class="text-danger email-error small"></p>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="password">{{ __('labels.Password') }}</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('labels.Password') }}">
+            <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('labels.Enter password') }}"
+            >
+
+            <p class="text-danger password-error small"></p>
         </div>
-        <button type="submit" class="btn btn-primary">{{ __('labels.Login') }}</button>
-    </form>
-</x-layout>
+
+        <div class="login-footer">
+            <button type="submit" class="btn btn-primary login">{{ __('labels.Login') }}</button>
+        </div>
+    </div>
+@endguest

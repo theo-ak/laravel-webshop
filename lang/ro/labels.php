@@ -40,5 +40,6 @@ return [
     'Email' => 'Email',
     'Enter password' => 'Introduceti parola',
     'Close' => "Inchideti",
-    'Add' => 'Adaugati'
+    'Add' => 'Adaugati',
+    'Admin' => 'Admin'
 ];
