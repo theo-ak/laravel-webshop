@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('contact');
-            $table->string('comments')->nullable();
+            $table->string('comments')->default('');
+            $table->float('total', 8, 2)->default(0);
             $table->timestamps();
         });
     }

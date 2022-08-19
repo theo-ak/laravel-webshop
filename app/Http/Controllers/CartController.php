@@ -77,7 +77,9 @@ class CartController extends Controller
                     $order_product->order_id = $order->id;
                     $order_product->product_id = $product->id;
                     $order_product->product_price = $product->price;
+                    $order->total += $product->price;
 
+                    $order->save();
                     $order_product->save();
                 }
 

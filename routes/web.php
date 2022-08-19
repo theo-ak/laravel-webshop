@@ -51,7 +51,8 @@ Route::get('edit-product/{id}', [ProductController::class, 'edit'])->name('produ
 Route::post('update-product/{id}', [ProductController::class, 'update'])->name('product.update')->middleware('auth');
 //Route::post('/product/edit/{product}', [ProductController::class, 'update'])->name('product.update')->middleware('auth');
 
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index')->middleware('auth');
+//Route::get('/orders', [OrderController::class, 'index'])->name('orders.index')->middleware('auth');
+Route::get('fetch-orders', [OrderController::class, 'index'])->name('orders.index')->middleware('auth');
 Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
 
 

@@ -9,7 +9,12 @@ class OrderController extends Controller
 {
     public function index()
     {
-        return view('orders', ['orders' => Order::all()]);
+        $orders = Order::with('products')->get();
+
+        return response()->json([
+           'status' => 200,
+           'orders' => $orders
+        ]);
     }
 
     public function show(Order $order)

@@ -114,6 +114,11 @@
         <a href="#" class="btn btn-primary button">Go to index</a>
     </div>
 
+    <!-- The orders page -->
+    <div class="page orders" id="orders">
+        <table class="table list"></table>
+    </div>
+
 @section('scripts')
         <script>
             $(document).ready(function () {
@@ -138,6 +143,39 @@
                                 '<td class="action-buttons">',
                                     '<button type="submit" value="' + product.id + '" class="btn btn-primary mb-2 add-remove"></button>',
                                     '<button type="submit" value="' + product.id + '" class="btn btn-primary edit-product"></button>',
+                                '</td>',
+                            '</tr>'
+                        ].join('');
+                    });
+
+                    html += '</tbody>';
+
+                    return html;
+                }
+
+                function renderOrderList(orders) {
+                    html = [
+                        '<thead>',
+                            '<tr>',
+                                '<th scope="col">ID</th>',
+                                '<th scope="col">Contact</th>',
+                                '<th scope="col">Comments</th>',
+                                '<th scope="col">Total</th>',
+                                '<th scope="col">Actions</th>',
+                            '</tr>',
+                        '</thead>',
+                        '<tbody>'
+                    ].join('');
+
+                    $.each(orders, function (key, order) {
+                        html += [
+                            '<tr>',
+                                '<td>' + order.id + '</td>',
+                                '<td>' + order.contact + '</td>',
+                                '<td>' + order.comments + '</td>',
+                                '<td>' + order.total + '</td>',
+                                '<td class="action-buttons">',
+                                    '<button type="submit" value="' + order.id + '" class="btn btn-primary mb-2 view-order"></button>',
                                 '</td>',
                             '</tr>'
                         ].join('');
@@ -436,6 +474,19 @@
                                        });
                                }
                             });
+                            break;
+                        case '#orders':
+                            $('.orders').show();
+                            $.ajax({
+                                type: 'get',
+                                url: '/fetch-orders',
+                                dataType: 'json',
+                                success: function (response) {
+                                    console.log(response)
+                                    $('.orders .list').html(renderOrderList(response.orders));
+                                    $('.view-order').text('{{ __('labels.View order') }}');
+                                }
+                            })
                             break;
                         default:
                             $('.index').show();
