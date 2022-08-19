@@ -101,7 +101,7 @@
         @endguest
 
         @auth()
-            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+            <button type="submit" class="btn btn-primary add-product" data-bs-toggle="modal" data-bs-target="#productModal">
                 {{ __('labels.Add new product') }}
             </button>
 
@@ -291,6 +291,12 @@
                 $(document).on('click', '.add-product', function (e) {
                     e.preventDefault();
 
+                    $('#productModal .error').text('');
+                });
+
+                $(document).on('click', '.store-product', function (e) {
+                    e.preventDefault();
+
                     data = {
                         'title': $('#title').val(),
                         'description': $('#description').val(),
@@ -310,9 +316,9 @@
                         dataType: 'json',
                         success: function (response) {
                             if (response.status === 400) {
-                                $('.title-error').text(response.errors.title ? response.errors.title : '');
-                                $('.description-error').text(response.errors.description ? response.errors.description : '');
-                                $('.price-error').text(response.errors.price ? response.errors.price : '');
+                                $('#productModal .title-error').text(response.errors.title ? response.errors.title : '');
+                                $('#productModal .description-error').text(response.errors.description ? response.errors.description : '');
+                                $('#productModal .price-error').text(response.errors.price ? response.errors.price : '');
                             } else {
                                 $('#title').val('');
                                 $('#description').val('');
@@ -329,6 +335,8 @@
                 $(document).on('click', '.edit-product', function (e) {
                     e.preventDefault();
 
+                    $('#productEditModal .error').text('');
+
                     productId = $(this).val();
                     $.ajax({
                         type: 'get',
@@ -344,6 +352,46 @@
                                 $('#productEditModal #description').val(response.product.description);
                                 $('#productEditModal #price').val(response.product.price);
                                 $('#productEditModal #id').val(productId);
+                            }
+                        }
+                    });
+                });
+
+                $(document).on('click', '.update-product', function (e) {
+                    e.preventDefault();
+
+                    productId = $('#productEditModal #id').val();
+
+                    data = {
+                        'title': $('#productEditModal #title').val(),
+                        'description': $('#productEditModal #description').val(),
+                        'price': $('#productEditModal #price').val()
+                    };
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/update-product/' + productId,
+                        data: data,
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status === 400) {
+                                $('#productEditModal .title-error').text(response.errors.title ? response.errors.title : '');
+                                $('#productEditModal .description-error').text(response.errors.description ? response.errors.description : '');
+                                $('#productEditModal .price-error').text(response.errors.price ? response.errors.price : '');
+                            } else {
+                                $('#title').val('');
+                                $('#description').val('');
+                                $('#price').val('');
+                                $('#productEditModal').modal('hide');
+                                $('#success-text').text(response.message);
+                                $('#success-message').show();
+                                window.onhashchange();
                             }
                         }
                     });

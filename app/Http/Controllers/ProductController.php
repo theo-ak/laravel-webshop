@@ -48,7 +48,7 @@ class ProductController extends Controller
 
     public function edit(Product $product, Request $request, $id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
 
         if ($product) {
             return response()->json([
@@ -63,20 +63,30 @@ class ProductController extends Controller
         }
     }
 
-    public function update(Product $product, Request $request)
+    public function update(Product $product, Request $request, $id)
     {
-        $attributes = $request->validate([
+        $product = Product::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
             'title' => 'required',
             'description' => 'required',
             'price' => 'required|numeric',
-            'img' => 'image'
         ]);
 
-        $attributes['img'] = $request->file('img')->store('thumbnails');
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages()
+            ]);
+        } else {
+            $product->update($validator->validated());
 
-        $product->update($attributes);
-
-        return back();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Product updated successfully',
+                'product' => $product
+            ]);
+        }
     }
 
     public function destroy(Request $request, $id)
