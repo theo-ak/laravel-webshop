@@ -105,11 +105,10 @@
                 {{ __('labels.Add new product') }}
             </button>
 
-            <x-product-modal buttonType="add-product" id="productModal"/>
-            <x-product-modal buttonType="edit-product" id="editProduct"/>
+            <x-add-product-modal />
+            <x-edit-product-modal />
 
-
-                <table class="table list"></table>
+            <table class="table list"></table>
         @endauth
 
         <a href="#" class="btn btn-primary button">Go to index</a>
@@ -337,19 +336,18 @@
                         dataType: 'json',
                         success: function (response) {
                             if (response.status === 404) {
-                                $('#title').val('');
-                                $('#description').val('');
-                                $('#price').val('');
+                                $('#productEditModal #title').val('');
+                                $('#productEditModal #description').val('');
+                                $('#productEditModal #price').val('');
                             } else {
-                                $('#title').val(response.product.title);
-                                $('#description').val(response.product.description);
-                                $('#price').val(response.product.price);
-                                $('#id').val(productId);
+                                $('#productEditModal #title').val(response.product.title);
+                                $('#productEditModal #description').val(response.product.description);
+                                $('#productEditModal #price').val(response.product.price);
+                                $('#productEditModal #id').val(productId);
                             }
                         }
                     });
                 });
-
 
                 /**
                  * URL hash change handler
@@ -386,7 +384,7 @@
                                        .text('{{ __('labels.Edit') }}')
                                        .attr({
                                            'data-bs-toggle': 'modal',
-                                           'data-bs-target': '#productModal'
+                                           'data-bs-target': '#productEditModal'
                                        });
                                }
                             });
