@@ -46,9 +46,21 @@ class ProductController extends Controller
         }
     }
 
-    public function edit(Product $product, Request $request)
+    public function edit(Product $product, Request $request, $id)
     {
-        return view('product', ['product' => $product, 'request' => $request]);
+        $product = Product::find($id);
+
+        if ($product) {
+            return response()->json([
+                'status' => 200,
+                'product' => $product
+            ]);
+        } else {
+            return response()->json([
+               'status' => 404,
+               'message' => 'Product not found'
+            ]);
+        }
     }
 
     public function update(Product $product, Request $request)

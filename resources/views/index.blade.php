@@ -105,8 +105,8 @@
                 {{ __('labels.Add new product') }}
             </button>
 
-            <x-product-modal buttonType="add-product"/>
-            <x-product-modal buttonType="edit-product"/>
+            <x-product-modal buttonType="add-product" id="productModal"/>
+            <x-product-modal buttonType="edit-product" id="editProduct"/>
 
 
                 <table class="table list"></table>
@@ -326,6 +326,30 @@
                         }
                     });
                 });
+
+                $(document).on('click', '.edit-product', function (e) {
+                    e.preventDefault();
+
+                    productId = $(this).val();
+                    $.ajax({
+                        type: 'get',
+                        url: '/edit-product/' + productId,
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status === 404) {
+                                $('#title').val('');
+                                $('#description').val('');
+                                $('#price').val('');
+                            } else {
+                                $('#title').val(response.product.title);
+                                $('#description').val(response.product.description);
+                                $('#price').val(response.product.price);
+                                $('#id').val(productId);
+                            }
+                        }
+                    });
+                });
+
 
                 /**
                  * URL hash change handler
