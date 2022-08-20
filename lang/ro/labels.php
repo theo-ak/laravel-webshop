@@ -44,5 +44,6 @@ return [
     'Admin' => 'Admin',
     'Index' => 'Index',
     'Cart' => 'Cart',
-    'Orders' => 'Comenzi'
+    'Orders' => 'Comenzi',
+    'Back' => 'Inapoi'
 ];

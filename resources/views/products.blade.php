@@ -3,12 +3,12 @@
 @endguest
 
 @auth()
-    <button type="submit" class="btn btn-primary add-product" data-bs-toggle="modal" data-bs-target="#productModal">
-        {{ __('labels.Add new product') }}
-    </button>
 
-    <x-add-product-modal />
-    <x-edit-product-modal />
+    <a href="#product">
+        <button type="button" class="btn btn-primary add-product">
+            {{ __('labels.Add new product') }}
+        </button>
+    </a>
 
     <table class="table list"></table>
 @endauth

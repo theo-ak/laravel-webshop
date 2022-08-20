@@ -24,6 +24,11 @@
         @include('products')
     </div>
 
+    <!-- The product page -->
+    <div class="page product" id="product">
+        @include('product')
+    </div>
+
     <!-- The orders page -->
     @include('orders')
 
@@ -200,8 +205,9 @@
                                 $('.email-error').text(response.message ? response.message : '');
                                 $('#password').val('');
                             } else {
-                                $('#products').html('');
-                                $('#products').load(document.URL + ' #products');
+                                $('#products')
+                                    .html('')
+                                    .load(document.URL + ' #products');
                                 $('#navbar').load(document.URL + ' #navbar');
                                 window.location = '#products';
                                 $('#success-message')
@@ -236,9 +242,8 @@
                 });
 
                 $(document).on('click', '.add-product', function (e) {
-                    e.preventDefault();
-
-                    $('#productModal .error').text('');
+                    $('#product .error').text('');
+                    $('#product input').val('');
                 });
 
                 $(document).on('click', '.store-product', function (e) {
@@ -263,17 +268,13 @@
                         dataType: 'json',
                         success: function (response) {
                             if (response.status === 400) {
-                                $('#productModal .title-error').text(response.errors.title ? response.errors.title : '');
-                                $('#productModal .description-error').text(response.errors.description ? response.errors.description : '');
-                                $('#productModal .price-error').text(response.errors.price ? response.errors.price : '');
+                                $('.title-error').text(response.errors.title ? response.errors.title : '');
+                                $('.description-error').text(response.errors.description ? response.errors.description : '');
+                                $('.price-error').text(response.errors.price ? response.errors.price : '');
                             } else {
-                                $('#title').val('');
-                                $('#description').val('');
-                                $('#price').val('');
-                                $('#productModal').modal('hide');
                                 $('#success-text').text(response.message);
                                 $('#success-message').show();
-                                window.onhashchange();
+                                window.location = '#products';
                             }
                         }
                     });
@@ -410,6 +411,9 @@
                                         });
                                 }
                             });
+                            break;
+                        case '#product':
+                            $('.product').show();
                             break;
                         case '#orders':
                             $('.orders').show();
