@@ -28,5 +28,5 @@
     <a href="#products">
         <button type="button" class="btn btn-secondary">{{ __('labels.Back') }}</button>
     </a>
-    <button type="submit" class="btn btn-primary store-product">{{ __('labels.Add') }}</button>
+    <button type="submit" class="btn btn-primary action-button store-product">{{ __('labels.Add') }}</button>
 </div>

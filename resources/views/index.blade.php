@@ -55,7 +55,7 @@
                             '<td>' + product.price + '</td>',
                             '<td class="action-buttons">',
                             '<button type="submit" value="' + product.id + '" class="btn btn-primary mb-2 add-remove"></button>',
-                            '<button type="submit" value="' + product.id + '" class="btn btn-primary edit-product"></button>',
+                            '<a href="#product"><button type="submit" value="' + product.id + '" class="btn btn-primary edit-product"></button></a>',
                             '</td>',
                             '</tr>'
                         ].join('');
@@ -241,9 +241,11 @@
                     });
                 });
 
-                $(document).on('click', '.add-product', function (e) {
-                    $('#product .error').text('');
-                    $('#product input').val('');
+                $(document).on('click', '.add-product', function () {
+                    $('#product .action-button')
+                        .text(' {{ __('labels.Add') }} ')
+                        .removeClass('update-product')
+                        .addClass('store-product');
                 });
 
                 $(document).on('click', '.store-product', function (e) {
@@ -280,26 +282,27 @@
                     });
                 });
 
-                $(document).on('click', '.edit-product', function (e) {
-                    e.preventDefault();
-
-                    $('#productEditModal .error').text('');
-
+                $(document).on('click', '.edit-product', function () {
                     productId = $(this).val();
+
+                    $('#product .action-button')
+                        .text(' {{ __('labels.Edit') }} ')
+                        .removeClass('store-product')
+                        .addClass('update-product');
                     $.ajax({
                         type: 'get',
                         url: '/edit-product/' + productId,
                         dataType: 'json',
                         success: function (response) {
                             if (response.status === 404) {
-                                $('#productEditModal #title').val('');
-                                $('#productEditModal #description').val('');
-                                $('#productEditModal #price').val('');
+                                $('#title').val('');
+                                $('#description').val('');
+                                $('#price').val('');
                             } else {
-                                $('#productEditModal #title').val(response.product.title);
-                                $('#productEditModal #description').val(response.product.description);
-                                $('#productEditModal #price').val(response.product.price);
-                                $('#productEditModal #id').val(productId);
+                                $('#title').val(response.product.title);
+                                $('#description').val(response.product.description);
+                                $('#price').val(response.product.price);
+                                $('#id').val(productId);
                             }
                         }
                     });
@@ -308,12 +311,12 @@
                 $(document).on('click', '.update-product', function (e) {
                     e.preventDefault();
 
-                    productId = $('#productEditModal #id').val();
+                    productId = $('#id').val();
 
                     data = {
-                        'title': $('#productEditModal #title').val(),
-                        'description': $('#productEditModal #description').val(),
-                        'price': $('#productEditModal #price').val()
+                        'title': $('#title').val(),
+                        'description': $('#description').val(),
+                        'price': $('#price').val()
                     };
 
                     $.ajaxSetup({
@@ -336,10 +339,9 @@
                                 $('#title').val('');
                                 $('#description').val('');
                                 $('#price').val('');
-                                $('#productEditModal').modal('hide');
                                 $('#success-text').text(response.message);
                                 $('#success-message').show();
-                                window.onhashchange();
+                                window.location = '#products';
                             }
                         }
                     });
@@ -403,17 +405,14 @@
                                 success: function (response) {
                                     $('.products .list').html(renderList(response.products));
                                     $('.action-buttons .add-remove').text('{{ __('labels.Delete product') }}').addClass('delete-product');
-                                    $('.action-buttons .edit-product')
-                                        .text('{{ __('labels.Edit') }}')
-                                        .attr({
-                                            'data-bs-toggle': 'modal',
-                                            'data-bs-target': '#productEditModal'
-                                        });
+                                    $('.action-buttons .edit-product').text('{{ __('labels.Edit') }}');
                                 }
                             });
                             break;
                         case '#product':
                             $('.product').show();
+                            $('#product .error').text('');
+                            $('#product input').val('');
                             break;
                         case '#orders':
                             $('.orders').show();
