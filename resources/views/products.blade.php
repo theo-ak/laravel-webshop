@@ -1,6 +1,4 @@
-@guest()
-    <p id="login-message">You must be logged in to see the products</p>
-@endguest
+<x-login-required />
 
 @auth()
 

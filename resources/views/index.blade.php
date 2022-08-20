@@ -30,7 +30,9 @@
     </div>
 
     <!-- The orders page -->
-    @include('orders')
+    <div class="page orders" id="orders">
+        @include('orders')
+    </div>
 
     @section('scripts')
         <script>

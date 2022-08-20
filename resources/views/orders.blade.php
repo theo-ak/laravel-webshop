@@ -1,5 +1,7 @@
-<div class="page orders" id="orders">
+<x-login-required />
+
+@auth()
     <x-order-modal />
 
     <table class="table list"></table>
-</div>
+@endauth
