@@ -17,7 +17,7 @@
         </div>
 
         <div class="login-footer">
-            <button type="submit" class="btn btn-primary login">{{ __('labels.Login') }}</button>
+            <button type="submit" class="btn btn-primary login-store">{{ __('labels.Login') }}</button>
         </div>
     </div>
 @endguest

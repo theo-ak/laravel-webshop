@@ -171,7 +171,7 @@
                     });
                 });
 
-                $(document).on('click', '.login', function (e) {
+                $(document).on('click', '.login-store', function (e) {
                     e.preventDefault();
 
                     data = {
@@ -200,6 +200,7 @@
                                 $('.email-error').text(response.message ? response.message : '');
                                 $('#password').val('');
                             } else {
+                                $('#products').html('');
                                 $('#products').load(document.URL + ' #products');
                                 $('#navbar').load(document.URL + ' #navbar');
                                 window.location = '#products';
