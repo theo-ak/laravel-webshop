@@ -30,7 +30,8 @@ class LoginController extends Controller
             return response()->json([
                'status' => 200,
                'message' => 'Login successful',
-               'redirect_url' => route('products.index')
+               'redirect_url' => route('products.index'),
+                "token" => csrf_token()
             ]);
         } else {
             return response()->json([

@@ -36,6 +36,12 @@
 
     @section('scripts')
         <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             $(document).ready(function () {
                 function renderList(products) {
                     html = [
@@ -106,12 +112,6 @@
 
                     productId = $(this).val();
 
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
                     $.ajax({
                         type: 'post',
                         url: '/add-to-cart/' + productId,
@@ -125,12 +125,6 @@
                     e.preventDefault();
 
                     productId = $(this).val();
-
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
 
                     $.ajax({
                         type: 'post',
@@ -149,12 +143,6 @@
                         'contact': $('#contact').val(),
                         'comments': $('#comments').val()
                     }
-
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
 
                     $.ajax({
                         type: 'post',
@@ -186,12 +174,6 @@
                         'password': $('#password').val()
                     }
 
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
                     $.ajax({
                         type: 'post',
                         url: '/login',
@@ -207,9 +189,17 @@
                                 $('.email-error').text(response.message ? response.message : '');
                                 $('#password').val('');
                             } else {
+                                $('meta[name="csrf-token"]').attr('content', response.token);
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': response.token
+                                    }
+                                });
                                 $('#products')
                                     .html('')
                                     .load(document.URL + ' #products');
+                                $('#product').load(document.URL + ' #product');
+                                $('#orders').load(document.URL + ' #orders');
                                 $('#navbar').load(document.URL + ' #navbar');
                                 window.location = '#products';
                                 $('#success-message')
@@ -224,12 +214,6 @@
                     e.preventDefault();
 
                     productId = $(this).val();
-
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
 
                     $.ajax({
                         type: 'post',
@@ -259,12 +243,6 @@
                         'price': $('#price').val()
                     }
 
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
                     $.ajax({
                         type: 'post',
                         url: '/add/',
@@ -291,6 +269,7 @@
                         .text(' {{ __('labels.Edit') }} ')
                         .removeClass('store-product')
                         .addClass('update-product');
+
                     $.ajax({
                         type: 'get',
                         url: '/edit-product/' + productId,
@@ -320,12 +299,6 @@
                         'description': $('#description').val(),
                         'price': $('#price').val()
                     };
-
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
 
                     $.ajax({
                         type: 'post',
