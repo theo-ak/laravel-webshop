@@ -41,5 +41,8 @@ return [
     'Enter password' => 'Introduceti parola',
     'Close' => "Inchideti",
     'Add' => 'Adaugati',
-    'Admin' => 'Admin'
+    'Admin' => 'Admin',
+    'Index' => 'Index',
+    'Cart' => 'Cart',
+    'Orders' => 'Comenzi'
 ];

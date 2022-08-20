@@ -19,6 +19,10 @@
 
 <body>
 
+<div id="navbar">
+    <x-navbar />
+</div>
+
 {{ $slot }}
 
 @yield('scripts')

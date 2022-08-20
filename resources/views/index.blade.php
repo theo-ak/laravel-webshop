@@ -1,20 +1,5 @@
 <x-layout>
 
-
-    @guest()
-        <a href="#login">
-            <button type="button" class="btn btn-primary my-3">
-                {{ __('labels.Login') }}
-            </button>
-        </a>
-    @else
-        <a href="#products">
-            <button type="button" class="btn btn-primary my-3">
-                {{ __('labels.Admin') }}
-            </button>
-        </a>
-    @endguest
-
     <!-- Success message -->
     <div id="success-message" class="alert alert-success alert-dismissible fade show" style="display: none">
         <div id="success-text"></div>
@@ -36,23 +21,23 @@
 
     <!-- The products page -->
     <div class="page products" id="products">
-    @include('products')
+        @include('products')
     </div>
 
     <!-- The orders page -->
     @include('orders')
 
-@section('scripts')
+    @section('scripts')
         <script>
             $(document).ready(function () {
                 function renderList(products) {
                     html = [
                         '<thead>',
-                            '<tr>',
-                                '<th scope="col">Title</th>',
-                                '<th scope="col">Description</th>',
-                                '<th scope="col">Price</th>',
-                            '</tr>',
+                        '<tr>',
+                        '<th scope="col">Title</th>',
+                        '<th scope="col">Description</th>',
+                        '<th scope="col">Price</th>',
+                        '</tr>',
                         '</thead>',
                         '<tbody>'
                     ].join('');
@@ -60,13 +45,13 @@
                     $.each(products, function (key, product) {
                         html += [
                             '<tr>',
-                                '<td>' + product.title + '</td>',
-                                '<td>' + product.description + '</td>',
-                                '<td>' + product.price + '</td>',
-                                '<td class="action-buttons">',
-                                    '<button type="submit" value="' + product.id + '" class="btn btn-primary mb-2 add-remove"></button>',
-                                    '<button type="submit" value="' + product.id + '" class="btn btn-primary edit-product"></button>',
-                                '</td>',
+                            '<td>' + product.title + '</td>',
+                            '<td>' + product.description + '</td>',
+                            '<td>' + product.price + '</td>',
+                            '<td class="action-buttons">',
+                            '<button type="submit" value="' + product.id + '" class="btn btn-primary mb-2 add-remove"></button>',
+                            '<button type="submit" value="' + product.id + '" class="btn btn-primary edit-product"></button>',
+                            '</td>',
                             '</tr>'
                         ].join('');
                     });
@@ -79,13 +64,13 @@
                 function renderOrderList(orders) {
                     html = [
                         '<thead>',
-                            '<tr>',
-                                '<th scope="col">ID</th>',
-                                '<th scope="col">Contact</th>',
-                                '<th scope="col">Comments</th>',
-                                '<th scope="col">Total</th>',
-                                '<th scope="col">Actions</th>',
-                            '</tr>',
+                        '<tr>',
+                        '<th scope="col">ID</th>',
+                        '<th scope="col">Contact</th>',
+                        '<th scope="col">Comments</th>',
+                        '<th scope="col">Total</th>',
+                        '<th scope="col">Actions</th>',
+                        '</tr>',
                         '</thead>',
                         '<tbody>'
                     ].join('');
@@ -93,13 +78,13 @@
                     $.each(orders, function (key, order) {
                         html += [
                             '<tr>',
-                                '<td>' + order.id + '</td>',
-                                '<td>' + order.contact + '</td>',
-                                '<td>' + order.comments + '</td>',
-                                '<td>' + order.total + '</td>',
-                                '<td class="action-buttons">',
-                                    '<button type="submit" value="' + order.id + '" class="btn btn-primary mb-2 view-order"></button>',
-                                '</td>',
+                            '<td>' + order.id + '</td>',
+                            '<td>' + order.contact + '</td>',
+                            '<td>' + order.comments + '</td>',
+                            '<td>' + order.total + '</td>',
+                            '<td class="action-buttons">',
+                            '<button type="submit" value="' + order.id + '" class="btn btn-primary mb-2 view-order"></button>',
+                            '</td>',
                             '</tr>'
                         ].join('');
                     });
@@ -123,7 +108,7 @@
                     $.ajax({
                         type: 'post',
                         url: '/add-to-cart/' + productId,
-                        success: function() {
+                        success: function () {
                             window.onhashchange();
                         }
                     });
@@ -143,7 +128,7 @@
                     $.ajax({
                         type: 'post',
                         url: '/remove-from-cart/' + productId,
-                        success: function() {
+                        success: function () {
                             window.onhashchange('#cart');
                         }
                     });
@@ -215,7 +200,8 @@
                                 $('.email-error').text(response.message ? response.message : '');
                                 $('#password').val('');
                             } else {
-                                $('.products').load(document.URL + '.products');
+                                $('#products').load(document.URL + ' #products');
+                                $('#navbar').load(document.URL + ' #navbar');
                                 window.location = '#products';
                                 $('#success-message')
                                     .append(response.message)
@@ -239,7 +225,7 @@
                     $.ajax({
                         type: 'post',
                         url: '/delete/' + productId,
-                        success: function(response) {
+                        success: function (response) {
                             window.onhashchange();
                             $('#success-text')
                                 .text(response.message);
@@ -374,7 +360,7 @@
                             $('#orderModal #comments').text(response.order.comments);
                             $.each(response.orderProducts, function (key, orderProduct) {
                                 $('#orderModal #products')
-                                    .append('<li>' + orderProduct.title + ' - ' +orderProduct.price + '</li>');
+                                    .append('<li>' + orderProduct.title + ' - ' + orderProduct.price + '</li>');
                             });
                             $('#orderModal #total').text(response.order.total);
                         }
@@ -391,7 +377,7 @@
                         case '#cart':
                             $('.cart').show();
                             $.ajax({
-                                type:'get',
+                                type: 'get',
                                 url: '/fetch-cart-products',
                                 dataType: 'json',
                                 success: function (response) {
@@ -409,19 +395,19 @@
                         case '#products':
                             $('.products').show();
                             $.ajax({
-                               type: 'get',
-                               url: '/fetch-all-products',
-                               dataType: 'json',
-                               success: function (response) {
-                                   $('.products .list').html(renderList(response.products));
-                                   $('.action-buttons .add-remove').text('{{ __('labels.Delete product') }}').addClass('delete-product');
-                                   $('.action-buttons .edit-product')
-                                       .text('{{ __('labels.Edit') }}')
-                                       .attr({
-                                           'data-bs-toggle': 'modal',
-                                           'data-bs-target': '#productEditModal'
-                                       });
-                               }
+                                type: 'get',
+                                url: '/fetch-all-products',
+                                dataType: 'json',
+                                success: function (response) {
+                                    $('.products .list').html(renderList(response.products));
+                                    $('.action-buttons .add-remove').text('{{ __('labels.Delete product') }}').addClass('delete-product');
+                                    $('.action-buttons .edit-product')
+                                        .text('{{ __('labels.Edit') }}')
+                                        .attr({
+                                            'data-bs-toggle': 'modal',
+                                            'data-bs-target': '#productEditModal'
+                                        });
+                                }
                             });
                             break;
                         case '#orders':
@@ -444,8 +430,8 @@
                         default:
                             $('.index').show();
                             $.ajax({
-                                type:'get',
-                                url:'/fetch-products',
+                                type: 'get',
+                                url: '/fetch-products',
                                 dataType: 'json',
                                 success: function (response) {
                                     $('.index .list').html(renderList(response.products));
