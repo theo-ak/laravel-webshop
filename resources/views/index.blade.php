@@ -26,7 +26,7 @@
                 <td>{{ $product->price }}</td>
                 <td><img src="{{ asset('storage/' . $product->img) }}" alt="album image"></td>
                 <td>
-                    <form action="{{ route('index') }}" method="post">
+                    <form action="{{ route('cart.store') }}" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ $product->id }}">
                         <button type="submit" class="btn btn-primary">{{ __('labels.Add to cart') }}</button>

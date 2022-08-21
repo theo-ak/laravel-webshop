@@ -20,15 +20,17 @@ class CartController extends Controller
     {
         $cart = collect($request->session()->get('cart'));
 
-        $id = $request->validate([
+        $data = $request->validate([
            'id' => 'required|numeric'
-        ])['id'];
+        ]);
+
+        $id = $data['id'];
 
         if (!$cart->search($id) && Product::findOrFail($id)) {
             $request->session()->push('cart', $id);
         }
 
-        return redirect()->route('index');
+        return redirect()->route('index.index');
     }
 
     public function destroy(Request $request)

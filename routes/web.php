@@ -25,9 +25,9 @@ Route::post('/login', [LoginController::class, 'store'])->name('login.store')->m
 
 Route::get('/logout', [LoginController::class, 'destroy'])->name('logout')->middleware('auth');
 
-Route::get('/', [HomepageController::class, 'index'])->name('index');
+Route::get('/', [HomepageController::class, 'index'])->name('index.index');
 
-Route::post('/', [CartController::class, 'store'])->name('index.store');
+Route::post('/', [CartController::class, 'store'])->name('cart.store');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart', [CartController::class, 'destroy'])->name('cart.destroy');
