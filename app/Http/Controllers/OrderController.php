@@ -21,10 +21,16 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        return response()->json([
-           'status' => 200,
-           'order' => $order,
-           'orderProducts' => $order->products
-        ]);
+        if ($order) {
+            return response()->json([
+                'status' => 200,
+                'orders' => $order,
+                'orderProducts' => $order->products
+            ]);
+        } else {
+            return response()->json([
+               'status' => 404
+            ]);
+        }
     }
 }

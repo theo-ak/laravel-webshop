@@ -34,7 +34,12 @@
         @include('orders')
     </div>
 
-    @section('scripts')
+    <!-- The order page -->
+    <div class="page order" id="order">
+        @include('order')
+    </div>
+
+@section('scripts')
         <script>
             $.ajaxSetup({
                 headers: {
@@ -96,13 +101,45 @@
                             '<td>' + order.comments + '</td>',
                             '<td>' + order.total + '</td>',
                             '<td class="action-buttons">',
-                            '<button type="submit" value="' + order.id + '" class="btn btn-primary mb-2 view-order"></button>',
+                            '<a href="#order"><button type="submit" value="' + order.id + '" class="btn btn-primary mb-2 view-order"></button></a>',
                             '</td>',
                             '</tr>'
                         ].join('');
                     });
 
                     html += '</tbody>';
+
+                    return html;
+                }
+
+                function renderOrder(order) {
+                    html = [
+                        '<thead>',
+                        '<tr>',
+                        '<th scope="col">ID</th>',
+                        '<th scope="col">Contact</th>',
+                        '<th scope="col">Comments</th>',
+                        '<th scope="col">Products</th>',
+                        '<th scope="col">Total</th>',
+                        '</tr>',
+                        '</thead>',
+                        '<tbody>',
+                        '<tr>',
+                        '<td>' + order.id + '</td>',
+                        '<td>' + order.contact + '</td>',
+                        '<td>' + order.comments + '</td>',
+                        '<td>'
+                    ].join('');
+
+                    $.each(order.products, function (key, product) {
+                        html += '<p>' + product.title + ' - ' + product.price + '</p>';
+                    });
+
+                    html += [
+                        '</td>',
+                        '<td>' + order.total + '</td>',
+                        '</tbody>'
+                    ].join('');
 
                     return html;
                 }
@@ -200,6 +237,7 @@
                                     .load(document.URL + ' #products');
                                 $('#product').load(document.URL + ' #product');
                                 $('#orders').load(document.URL + ' #orders');
+                                $('#order').load(document.URL + ' #order');
                                 $('#navbar').load(document.URL + ' #navbar');
                                 window.location = '#products';
                                 $('#success-message')
@@ -322,26 +360,17 @@
                     });
                 });
 
-                $(document).on('click', '.view-order', function (e) {
-                    e.preventDefault();
-
+                $(document).on('click', '.view-order', function () {
                     orderId = $(this).val();
-
-                    $('#orderModal #products').html('');
 
                     $.ajax({
                         type: 'get',
                         url: '/order/' + orderId,
                         dataType: 'json',
                         success: function (response) {
-                            $('#orderModal #name').text(response.order.name);
-                            $('#orderModal #contact').text(response.order.contact);
-                            $('#orderModal #comments').text(response.order.comments);
-                            $.each(response.orderProducts, function (key, orderProduct) {
-                                $('#orderModal #products')
-                                    .append('<li>' + orderProduct.title + ' - ' + orderProduct.price + '</li>');
-                            });
-                            $('#orderModal #total').text(response.order.total);
+                            if (response.status === 200) {
+                                $('.order .list').html(renderOrder(response.orders));
+                            }
                         }
                     });
                 });
@@ -397,14 +426,12 @@
                                 dataType: 'json',
                                 success: function (response) {
                                     $('.orders .list').html(renderOrderList(response.orders));
-                                    $('.view-order')
-                                        .text('{{ __('labels.View order') }}')
-                                        .attr({
-                                            'data-bs-toggle': 'modal',
-                                            'data-bs-target': '#orderModal'
-                                        });
+                                    $('.view-order').text('{{ __('labels.View order') }}');
                                 }
                             });
+                            break;
+                        case '#order':
+                            $('.order').show();
                             break;
                         default:
                             $('.index').show();
