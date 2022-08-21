@@ -25,7 +25,8 @@
 
 {{ $slot }}
 
-@yield('scripts')
+<x-scripts />
+
 </body>
 
 </html>
