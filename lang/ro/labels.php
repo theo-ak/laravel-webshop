@@ -45,5 +45,6 @@ return [
     'Index' => 'Index',
     'Cart' => 'Cart',
     'Orders' => 'Comenzi',
-    'Back' => 'Inapoi'
+    'Back' => 'Inapoi',
+    'ID' => 'ID'
 ];

@@ -6,13 +6,25 @@
     });
 
     $(document).ready(function () {
+        function translateTableLabels() {
+            $('.table-title').text('{{ __('labels.Title') }}');
+            $('.table-description').text('{{ __('labels.Description') }}');
+            $('.table-price').text('{{ __('labels.Price') }}');
+            $('.table-id').text('{{ __('labels.ID') }}');
+            $('.table-contact').text('{{ __('labels.Contact') }}');
+            $('.table-comments').text('{{ __('labels.Comments') }}');
+            $('.table-total').text('{{ __('labels.Total') }}');
+            $('.table-actions').text('{{ __('labels.Actions') }}');
+            $('.table-products').text('{{ __('labels.Products') }}');
+        }
+
         function renderList(products) {
             html = [
                 '<thead>',
                     '<tr>',
-                        '<th scope="col">Title</th>',
-                        '<th scope="col">Description</th>',
-                        '<th scope="col">Price</th>',
+                        '<th scope="col" class="table-title"></th>',
+                        '<th scope="col" class="table-description"></th>',
+                        '<th scope="col" class="table-price"></th>',
                     '</tr>',
                 '</thead>',
                 '<tbody>'
@@ -41,11 +53,11 @@
             html = [
                 '<thead>',
                     '<tr>',
-                        '<th scope="col">ID</th>',
-                        '<th scope="col">Contact</th>',
-                        '<th scope="col">Comments</th>',
-                        '<th scope="col">Total</th>',
-                        '<th scope="col">Actions</th>',
+                        '<th scope="col" class="table-id"></th>',
+                        '<th scope="col" class="table-contact"></th>',
+                        '<th scope="col" class="table-comments"></th>',
+                        '<th scope="col" class="table-total"></th>',
+                        '<th scope="col" class="table-actions"></th>',
                     '</tr>',
                 '</thead>',
                 '<tbody>'
@@ -74,11 +86,11 @@
             html = [
                 '<thead>',
                     '<tr>',
-                        '<th scope="col">ID</th>',
-                        '<th scope="col">Contact</th>',
-                        '<th scope="col">Comments</th>',
-                        '<th scope="col">Products</th>',
-                        '<th scope="col">Total</th>',
+                        '<th scope="col" class="table-id"></th>',
+                        '<th scope="col" class="table-contact"></th>',
+                        '<th scope="col" class="table-comments"></th>',
+                        '<th scope="col" class="table-products"></th>',
+                        '<th scope="col" class="table-total"></th>',
                     '</tr>',
                 '</thead>',
                 '<tbody>',
@@ -109,7 +121,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '/add-to-cart/' + productId,
+                url: '/cart/' + productId,
                 success: function () {
                     window.onhashchange();
                 }
@@ -122,8 +134,8 @@
             productId = $(this).val();
 
             $.ajax({
-                type: 'post',
-                url: '/remove-from-cart/' + productId,
+                type: 'delete',
+                url: '/cart/' + productId,
                 success: function () {
                     window.onhashchange('#cart');
                 }
@@ -141,7 +153,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '/checkout',
+                url: '/orders',
                 data: data,
                 dataType: 'json',
                 success: function (response) {
@@ -212,8 +224,8 @@
             productId = $(this).val();
 
             $.ajax({
-                type: 'post',
-                url: '/delete/' + productId,
+                type: 'delete',
+                url: '/products/' + productId,
                 success: function (response) {
                     window.onhashchange();
                     $('#success-text')
@@ -241,7 +253,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '/add/',
+                url: '/products',
                 data: data,
                 dataType: 'json',
                 success: function (response) {
@@ -268,7 +280,7 @@
 
             $.ajax({
                 type: 'get',
-                url: '/edit-product/' + productId,
+                url: '/products/' + productId + '/edit',
                 dataType: 'json',
                 success: function (response) {
                     if (response.status === 404) {
@@ -297,8 +309,8 @@
             };
 
             $.ajax({
-                type: 'post',
-                url: '/update-product/' + productId,
+                type: 'put',
+                url: '/products/' + productId,
                 data: data,
                 dataType: 'json',
                 success: function (response) {
@@ -323,11 +335,12 @@
 
             $.ajax({
                 type: 'get',
-                url: '/order/' + orderId,
+                url: '/orders/' + orderId,
                 dataType: 'json',
                 success: function (response) {
                     if (response.status === 200) {
                         $('.order .list').html(renderOrder(response.orders));
+                        translateTableLabels();
                     }
                 }
             });
@@ -344,10 +357,11 @@
                     $('.cart').show();
                     $.ajax({
                         type: 'get',
-                        url: '/fetch-cart-products',
+                        url: '/cart',
                         dataType: 'json',
                         success: function (response) {
                             $('.cart .list').html(renderList(response.products));
+                            translateTableLabels();
                             $('.action-buttons .add-remove')
                                 .text('{{ __('labels.Remove') }}')
                                 .addClass('remove-from-cart');
@@ -362,7 +376,7 @@
                     $('.products').show();
                     $.ajax({
                         type: 'get',
-                        url: '/fetch-all-products',
+                        url: '{{ route('products.index') }}',
                         dataType: 'json',
                         success: function (response) {
                             $('.products .list').html(renderList(response.products));
@@ -380,10 +394,11 @@
                     $('.orders').show();
                     $.ajax({
                         type: 'get',
-                        url: '/fetch-orders',
+                        url: '/orders',
                         dataType: 'json',
                         success: function (response) {
                             $('.orders .list').html(renderOrderList(response.orders));
+                            translateTableLabels();
                             $('.view-order').text('{{ __('labels.View order') }}');
                         }
                     });
@@ -399,6 +414,7 @@
                         dataType: 'json',
                         success: function (response) {
                             $('.index .list').html(renderList(response.products));
+                            translateTableLabels();
                             $('.action-buttons .add-remove')
                                 .text('{{ __('labels.Add to cart') }}')
                                 .addClass('add-to-cart');

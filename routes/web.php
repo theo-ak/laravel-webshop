@@ -25,24 +25,23 @@ Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 Route::get('/logout', [LoginController::class, 'destroy'])->name('logout')->middleware('auth');
 
 Route::get('/', [HomepageController::class, 'index'])->name('index');
-Route::get('fetch-products', [HomepageController::class, 'fetchProducts']);
+Route::get('/fetch-products', [HomepageController::class, 'fetchProducts']);
 
-Route::post('add-to-cart/{id}', [CartController::class, 'store']);
+Route::post('/cart/{id}', [CartController::class, 'store']);
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::get('/fetch-cart-products', [CartController::class, 'fetchCartProducts']);
-Route::post('/remove-from-cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
-Route::post('/checkout', [CartController::class, 'checkout']);
+Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::post('/orders', [CartController::class, 'checkout'])->name('orders.store');
 
-Route::get('/fetch-all-products', [ProductController::class, 'index'])->name('products.index')->middleware('auth');
-Route::post('/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index')->middleware('auth');
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
 
-Route::post('/add', [ProductController::class, 'store'])->name('product.store')->middleware('auth');
+Route::post('/products', [ProductController::class, 'store'])->name('product.store')->middleware('auth');
 
-Route::get('edit-product/{id}', [ProductController::class, 'edit'])->name('product.edit')->middleware('auth');
-Route::post('update-product/{id}', [ProductController::class, 'update'])->name('product.update')->middleware('auth');
+Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('product.edit')->middleware('auth');
+Route::put('/products/{id}', [ProductController::class, 'update'])->name('product.update')->middleware('auth');
 
-Route::get('fetch-orders', [OrderController::class, 'index'])->name('orders.index')->middleware('auth');
-Route::get('order/{id}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index')->middleware('auth');
+Route::get('orders/{id}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
 
 

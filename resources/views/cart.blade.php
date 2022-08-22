@@ -1,7 +1,7 @@
 <div class="page cart" id="cart">
     <table class="table list"></table>
 
-    <a href="#" class="btn btn-primary button">Go to index</a>
+    <a href="#" class="btn btn-primary button">{{ __('labels.To Index') }}</a>
 
     <!-- The checkout form -->
     <div class="form-group">

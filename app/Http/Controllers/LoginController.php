@@ -28,10 +28,10 @@ class LoginController extends Controller
             session()->regenerate();
 
             return response()->json([
-               'status' => 200,
-               'message' => 'Login successful',
-               'redirect_url' => route('products.index'),
-                "token" => csrf_token()
+                'status' => 200,
+                'message' => 'Login successful',
+                'redirect_url' => route('products.index'),
+                'token' => csrf_token()
             ]);
         } else {
             return response()->json([

@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
-    public function index(Request $request)
-    {
-        return view('cart');
-    }
+//    public function index()
+//    {
+//        return view('cart');
+//    }
 
-    public function fetchCartProducts(Request $request)
+    public function index(Request $request)
     {
         $products = Product::inCart($request);
 

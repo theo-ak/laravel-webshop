@@ -10,7 +10,7 @@
     <div class="page index">
         <table class="table list"></table>
 
-        <a href="#cart" class="btn btn-primary button">Go to cart</a>
+        <a href="#cart" class="btn btn-primary button">{{ __('labels.To Cart') }}</a>
     </div>
 
     <!-- The cart page -->
