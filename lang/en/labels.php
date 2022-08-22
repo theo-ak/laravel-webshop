@@ -36,5 +36,6 @@ return [
     'Password' => 'Password',
     'Login' => 'Login',
     'To Orders Page' => 'To Orders Page',
-    'Admin page' => 'Admin page'
+    'Admin page' => 'Admin page',
+    'album image' => 'album image'
 ];

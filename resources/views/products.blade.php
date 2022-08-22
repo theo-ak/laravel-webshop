@@ -34,7 +34,7 @@
                 <td>{{ $product->title }}</td>
                 <td>{{ $product->description }}</td>
                 <td>{{ $product->price }}</td>
-                <td><img src="{{ asset('storage/' . $product->img) }}" alt="album image"></td>
+                <td><img src="{{ asset('storage/' . $product->img) }}" alt="{{ __('labels.album image') }}"></td>
                 <td>
                     <form action="{{ route('products.destroy') }}" method="post">
                         @method('DELETE')

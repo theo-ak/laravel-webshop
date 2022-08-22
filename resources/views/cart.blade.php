@@ -33,12 +33,12 @@
                 <td>{{ $product->title }}</td>
                 <td>{{ $product->description }}</td>
                 <td>{{ $product->price }}</td>
-                <td><img src="{{ asset('storage/' . $product->img) }}" alt="album image"></td>
+                <td><img src="{{ asset('storage/' . $product->img) }}" alt="{{ __('labels.album image') }}"></td>
                 <td>
                     <form action="{{ route('cart.destroy', $product->id) }}" method="post">
                         @method('DELETE')
                         @csrf
-                        <button type="submit" class="btn btn-primary">Remove</button>
+                        <button type="submit" class="btn btn-primary">{{ __('labels.Remove') }}</button>
                     </form>
                 </td>
             </tr>

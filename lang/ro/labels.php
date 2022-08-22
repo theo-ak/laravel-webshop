@@ -36,5 +36,6 @@ return [
     'Password' => 'Parola',
     'Login' => 'Autentificare',
     'To Orders Page' => 'Pagina comenzi',
-    'Admin page' => 'Pagina admin'
+    'Admin page' => 'Pagina admin',
+    'album image' => 'coperta album'
 ];
