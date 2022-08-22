@@ -11,7 +11,7 @@
         <div class="form-group">
             <label for="title">{{ __('labels.Title') }}</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="{{ __('labels.Enter title') }}"
-                   value="{{ $product->title ?? '' }}">
+                   value="{{ old('title', $product->title ?? '') }}">
 
             @error ('title')
             <p>{{ $message }}</p>
@@ -21,7 +21,7 @@
         <div class="form-group">
             <label for="description">{{ __('labels.Description') }}</label>
             <textarea class="form-control" id="description" name="description" rows="3" placeholder="{{ __('labels.Enter description') }}"
-            >{{ $product->description ?? '' }}</textarea>
+            >{{ old('description', $product->description ?? '') }}</textarea>
 
             @error ('description')
             <p>{{ $message }}</p>
@@ -31,7 +31,7 @@
         <div class="form-group">
             <label for="price">{{ __('labels.Price') }}</label>
             <input type="number" step=".01" class="form-control" id="price" name="price" placeholder="{{ __('labels.Enter price') }}"
-                   value="{{ $product->price ?? ''}}">
+                   value="{{ old('price', $product->price ?? '') }}">
 
             @error ('price')
             <p>{{ $message }}</p>
