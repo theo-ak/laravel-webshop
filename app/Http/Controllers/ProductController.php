@@ -31,12 +31,12 @@ class ProductController extends Controller
 
         $product = Product::create($attributes);
 
-        return redirect()->action([ProductController::class, 'edit'], ['product' => $product, 'request' => $request]);
+        return redirect()->route('products.edit', $product);
     }
 
-    public function edit(Product $product, Request $request)
+    public function edit(Product $product)
     {
-        return view('product', ['product' => $product, 'request' => $request]);
+        return view('product', ['product' => $product]);
     }
 
     public function update(Product $product, Request $request)
@@ -63,6 +63,6 @@ class ProductController extends Controller
         Product::find($request->input('id'))->delete();
         Product::removeFromCart($request);
 
-        return redirect('/products');
+        return redirect()->route('products.index');
     }
 }
