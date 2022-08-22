@@ -67,7 +67,7 @@ class CartController extends Controller
                 ->attach($product->id, ['product_price' => $product->price]);
         }
 
-        Mail::to('shop-admin@shop.com')->send(new OrderDetails($order));
+        Mail::send(new OrderDetails($order));
 
         $request->session()->put('cart', []);
 

@@ -32,7 +32,6 @@ class OrderDetails extends Mailable
     public function build()
     {
         return $this
-            ->from('shopowner@shop.com')
             ->view('order-mail');
     }
 }
