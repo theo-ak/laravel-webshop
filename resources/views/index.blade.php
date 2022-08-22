@@ -3,9 +3,17 @@
         <button class="btn btn-primary my-3">{{ __('labels.To Cart') }}</button>
     </a>
 
-    <a href="{{ route('products.index') }}">
-        <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
-    </a>
+    @auth()
+        <a href="{{ route('products.index') }}">
+            <button class="btn btn-primary my-3">{{ __('labels.Admin page') }}</button>
+        </a>
+    @endauth
+
+    @guest()
+        <a href="{{ route('login') }}">
+            <button class="btn btn-primary my-3">{{ __('labels.Login') }}</button>
+        </a>
+    @endguest
 
     <table class="table">
         <thead>
