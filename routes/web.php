@@ -29,7 +29,7 @@ Route::delete('/cart/{item}', [CartController::class, 'destroy'])->name('cart.de
 Route::post('/orders', [CartController::class, 'checkout'])->name('orders.store');
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [LoginController::class, 'create'])->name('login');
+    Route::get('/login', [LoginController::class, 'create'])->name('login.create');
     Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 });
 
