@@ -29,7 +29,7 @@
                 <td>{{ $order->name }}</td>
                 <td>{{ $order->contact }}</td>
                 <td>{{ $order->comments }}</td>
-                <td>{{ $order->products->sum('price') }}</td>
+                <td>{{ $order->total }}</td>
                 <td>
                     <a href="{{ route('orders.show', $order->id) }}">
                         <button type="button" class="btn btn-primary my-3">{{ __('labels.View order') }}</button>

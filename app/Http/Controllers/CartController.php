@@ -67,6 +67,9 @@ class CartController extends Controller
                 ->attach($product->id, ['product_price' => $product->price]);
         }
 
+        $order->total = $order->products->sum('price');
+        $order->save();
+
         Mail::send(new OrderDetails($order));
 
         $request->session()->put('cart', []);
