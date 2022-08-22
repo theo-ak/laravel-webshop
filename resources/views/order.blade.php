@@ -28,7 +28,7 @@
                 @foreach ($order->products as $product)
                     <p>
                         @if (!$product->trashed())
-                            <a href="{{ route('product.edit', ['product' => $product->id]) }}">{{ $product->title }}</a> - {{ $product->pivot->product_price }}
+                            <a href="{{ route('products.edit', $product->id) }}">{{ $product->title }}</a> - {{ $product->pivot->product_price }}
                         @else
                             {{ $product->title }}
                         @endif

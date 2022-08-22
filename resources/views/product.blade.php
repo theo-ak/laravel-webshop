@@ -3,7 +3,10 @@
         <button class="btn btn-primary my-3">{{ __('labels.To Products Page') }}</button>
     </a>
 
-    <form method="post" action="/{{ $request->path() }}" enctype="multipart/form-data">
+    <form method="post" action="{{ isset($product->id) ? route('products.update', $product->id) : route('products.store') }}" enctype="multipart/form-data">
+        @isset($product->id)
+            @method('put')
+        @endisset
         @csrf
         <div class="form-group">
             <label for="title">{{ __('labels.Title') }}</label>

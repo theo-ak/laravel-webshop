@@ -11,7 +11,7 @@
         <button class="btn btn-primary my-3">{{ __('labels.To Orders Page') }}</button>
     </a>
 
-    <a href="{{ route('product.create') }}">
+    <a href="{{ route('products.create') }}">
         <button class="btn btn-primary my-3">{{ __('labels.Add new product') }}</button>
     </a>
 
@@ -37,11 +37,12 @@
                 <td><img src="{{ asset('storage/' . $product->img) }}" alt="album image"></td>
                 <td>
                     <form action="{{ route('products.destroy') }}" method="post">
+                        @method('DELETE')
                         @csrf
                         <input type="hidden" name="id" value="{{ $product->id }}">
                         <button type="submit" class="btn btn-primary">{{ __('labels.Delete product') }}</button>
                     </form>
-                    <a href="{{ route('product.edit', ['product' => $product->id]) }}">
+                    <a href="{{ route('products.edit', $product->id) }}">
                         <button type="button" class="btn btn-primary my-3">{{ __('labels.Edit') }}</button>
                     </a>
                 </td>

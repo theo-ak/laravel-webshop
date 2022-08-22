@@ -13,15 +13,15 @@ class CartController extends Controller
 {
     public function index(Request $request)
     {
-        return view('cart');
+        return view('cart', ['products' => Product::inCart($request)]);
     }
 
-    public function fetchCartProducts(Request $request)
+    public function store(Request $request)
     {
-        $products = Product::inCart($request);
+        $cart = collect($request->session()->get('cart'));
 
         $data = $request->validate([
-           'id' => 'required|numeric'
+            'id' => 'required|numeric'
         ]);
 
         $id = $data['id'];
@@ -33,17 +33,15 @@ class CartController extends Controller
         return redirect()->route('index.index');
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, $item)
     {
         $cart = collect($request->session()->get('cart'));
 
-        $cart->forget($cart->search($id));
+        $cart->forget($cart->search($item));
 
         $request->session()->put('cart', $cart->toArray());
 
-        return response()->json([
-            'status' => 200
-        ]);
+        return redirect()->route('cart.index');
     }
 
     public function checkout(Request $request)
