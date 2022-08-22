@@ -48,32 +48,29 @@ class CartController extends Controller
     {
         $products = Product::inCart($request);
 
-        if (!$products->isEmpty()) {
-            $attributes = $request->validate([
-                'name' => 'required',
-                'contact' => 'required'
-            ]);
-
-            $order = Order::create($attributes);
-
-            foreach ($products as $product) {
-                $order_product = new OrderProduct;
-
-                $order_product->order_id = $order->id;
-                $order_product->product_id = $product->id;
-                $order_product->product_price = $product->price;
-
-                $order_product->save();
-            }
-
-            Mail::to('shop-admin@shop.com')->send(new OrderDetails($order));
-
-            $request->session()->put('cart', []);
-            return view('cart', ['products' => Product::inCart($request), 'order' => $order]);
+        if ($products->isEmpty()) {
+            return back()
+                ->withInput()
+                ->withErrors(['cart' => 'The cart is empty.']);
         }
 
-        return back()
-            ->withInput()
-            ->withErrors(['cart' => 'The cart is empty.']);
+        $attributes = $request->validate([
+            'name' => 'required',
+            'contact' => 'required'
+        ]);
+
+        $order = Order::create($attributes);
+
+        foreach ($products as $product) {
+            $order
+                ->products()
+                ->attach($product->id, ['product_price' => $product->price]);
+        }
+
+        Mail::to('shop-admin@shop.com')->send(new OrderDetails($order));
+
+        $request->session()->put('cart', []);
+
+        return redirect()->route('cart.index');
     }
 }
