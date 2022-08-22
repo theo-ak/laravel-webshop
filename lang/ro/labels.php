@@ -37,5 +37,5 @@ return [
     'Login' => 'Autentificare',
     'To Orders Page' => 'Pagina comenzi',
     'Admin page' => 'Pagina admin',
-    'album image' => 'coperta album'
+    'These credentials do not match our records.' => 'Credentiale invalide'
 ];

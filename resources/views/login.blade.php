@@ -1,5 +1,5 @@
 <x-layout>
-    <form method="post" action="{{ route('login.store') }}">
+    <form method="post" action="{{ route('login') }}">
         @csrf
 
         <div class="form-group">
@@ -14,6 +14,10 @@
         <div class="form-group">
             <label for="password">{{ __('labels.Password') }}</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('labels.Password') }}">
+
+            @error ('password')
+            <p>{{ $message }}</p>
+            @enderror
         </div>
         <button type="submit" class="btn btn-primary">{{ __('labels.Login') }}</button>
     </form>

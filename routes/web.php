@@ -28,11 +28,6 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::delete('/cart/{item}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::post('/orders', [CartController::class, 'checkout'])->name('orders.store');
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [LoginController::class, 'create'])->name('login.create');
-    Route::post('/login', [LoginController::class, 'store'])->name('login.store');
-});
-
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 

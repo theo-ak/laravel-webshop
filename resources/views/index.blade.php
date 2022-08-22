@@ -10,7 +10,7 @@
     @endauth
 
     @guest()
-        <a href="{{ route('login.create') }}">
+        <a href="{{ route('login') }}">
             <button class="btn btn-primary my-3">{{ __('labels.Login') }}</button>
         </a>
     @endguest
