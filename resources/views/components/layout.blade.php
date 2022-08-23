@@ -26,8 +26,6 @@
 
 {{ $slot }}
 
-<x-scripts />
-
 </body>
 
 </html>
