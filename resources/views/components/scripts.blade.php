@@ -201,10 +201,9 @@
                     $('#order').load(document.URL + ' #order');
                     $('#navbar').load(document.URL + ' #navbar');
                     window.location = '#products';
-                    $('#success-message')
-                        .append(response.message)
-                        .show();
-                    },
+                    $('#success-message').show();
+                    $('#success-text').text(response.message);
+                },
                 error: function (response) {
                     if (response.status = 422) {
                         $('.email-error')

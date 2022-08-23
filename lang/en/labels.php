@@ -46,5 +46,10 @@ return [
     'Cart' => 'Cart',
     'Orders' => 'Orders',
     'Back' => 'Back',
-    'ID' => 'ID'
+    'ID' => 'ID',
+    'Login successful' => 'Login successful',
+    'Product added successfully' => 'Product added successfully',
+    'Product not found' => 'Product not found',
+    'Product updated successfully' => 'Product updated successfully',
+    'Product deleted successfully' => 'Product deleted successfully'
 ];

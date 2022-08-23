@@ -13,7 +13,8 @@ class LoginResponse implements LoginResponseContract
         return $request->wantsJson()
             ? response()->json([
                 'two_factor' => false,
-                'token' => csrf_token()
+                'token' => csrf_token(),
+                'message' => __('labels.Login successful')
             ])
             : redirect()->intended(Fortify::redirects('login'));
     }

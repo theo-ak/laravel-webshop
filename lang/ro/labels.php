@@ -46,5 +46,10 @@ return [
     'Cart' => 'Cart',
     'Orders' => 'Comenzi',
     'Back' => 'Inapoi',
-    'ID' => 'ID'
+    'ID' => 'ID',
+    'Login successful' => 'Autentificare reusita',
+    'Product added successfully' => 'Produs adaugat cu succes',
+    'Product not found' => 'Produsul nu exista',
+    'Product updated successfully' => 'Produs modificat cu succes',
+    'Product deleted successfully' => 'Produs eliminat cu succes'
 ];

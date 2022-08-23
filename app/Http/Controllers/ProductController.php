@@ -40,13 +40,13 @@ class ProductController extends Controller
 
             return response()->json([
                'status' => 200,
-               'message' => 'Product added successfully',
+               'message' => __('labels.Product added successfully'),
                'product' => $product
             ]);
         }
     }
 
-    public function edit(Product $product, Request $request, $id)
+    public function edit($id)
     {
         $product = Product::findOrFail($id);
 
@@ -58,12 +58,12 @@ class ProductController extends Controller
         } else {
             return response()->json([
                'status' => 404,
-               'message' => 'Product not found'
+               'message' => __('labels.Product not found')
             ]);
         }
     }
 
-    public function update(Product $product, Request $request, $id)
+    public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
 
@@ -83,7 +83,7 @@ class ProductController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Product updated successfully',
+                'message' => __('labels.Product updated successfully'),
                 'product' => $product
             ]);
         }
@@ -96,7 +96,7 @@ class ProductController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'Product deleted successfully'
+            'message' => __('labels.Product deleted successfully')
         ]);
     }
 }
