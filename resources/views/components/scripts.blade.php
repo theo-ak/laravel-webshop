@@ -187,32 +187,36 @@
                 data: data,
                 dataType: 'json',
                 success: function (response) {
-                    $('.email-error').html('');
-                    $('.password-error').html('');
-                    if (response.status === 400) {
-                        $('.email-error').text(response.errors.email ? response.errors.email : '');
-                        $('.password-error').text(response.errors.password ? response.errors.password : '');
-                    } else if (response.status === 401) {
-                        $('.email-error').text(response.message ? response.message : '');
-                        $('#password').val('');
-                    } else {
-                        $('meta[name="csrf-token"]').attr('content', response.token);
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': response.token
-                            }
-                        });
-                        $('#products')
-                            .html('')
-                            .load(document.URL + ' #products');
-                        $('#product').load(document.URL + ' #product');
-                        $('#orders').load(document.URL + ' #orders');
-                        $('#order').load(document.URL + ' #order');
-                        $('#navbar').load(document.URL + ' #navbar');
-                        window.location = '#products';
-                        $('#success-message')
-                            .append(response.message)
-                            .show();
+                    $('meta[name="csrf-token"]').attr('content', response.token);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': response.token
+                        }
+                    });
+                    $('#products')
+                        .html('')
+                        .load(document.URL + ' #products');
+                    $('#product').load(document.URL + ' #product');
+                    $('#orders').load(document.URL + ' #orders');
+                    $('#order').load(document.URL + ' #order');
+                    $('#navbar').load(document.URL + ' #navbar');
+                    window.location = '#products';
+                    $('#success-message')
+                        .append(response.message)
+                        .show();
+                    },
+                error: function (response) {
+                    if (response.status = 422) {
+                        $('.email-error')
+                            .text(
+                                response.responseJSON.errors.email ?
+                                    response.responseJSON.errors.email :
+                                    '');
+                        $('.password-error')
+                            .text(
+                                response.responseJSON.errors.password ?
+                                    response.responseJSON.errors.password :
+                                    '');
                     }
                 }
             });
@@ -371,6 +375,8 @@
                     break;
                 case '#login':
                     $('.login').show();
+                    $('.login input').val('');
+                    $('.login .error').text('');
                     break;
                 case '#products':
                     $('.products').show();

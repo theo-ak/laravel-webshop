@@ -5,7 +5,7 @@
             <input type="text" class="form-control" id="email" name="email" placeholder="{{ __('labels.Enter email') }}"
             >
 
-            <p class="text-danger email-error small"></p>
+            <p class="text-danger error email-error small"></p>
         </div>
 
         <div class="form-group mb-3">
@@ -13,7 +13,7 @@
             <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('labels.Enter password') }}"
             >
 
-            <p class="text-danger password-error small"></p>
+            <p class="text-danger error password-error small"></p>
         </div>
 
         <div class="login-footer">

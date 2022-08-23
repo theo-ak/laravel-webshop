@@ -21,7 +21,7 @@ return [
     'in' => 'Câmpul :attribute selectat nu este valid.',
     'in_array' => 'Câmpul :attribute nu există în :other.',
     'numeric' => 'Câmpul :attribute trebuie să fie un număr.',
-    'required' => 'Câmpul :attribute este obligatoriu.',
+    'required' => 'Acest câmp este obligatoriu.',
 
     /*
     |--------------------------------------------------------------------------

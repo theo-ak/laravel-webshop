@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
 
-Route::post('/login', [LoginController::class, 'store'])->name('login.store')->middleware('guest');
+//Route::post('/login', [LoginController::class, 'store'])->name('login.store')->middleware('guest');
 
 
 Route::get('/', [HomepageController::class, 'index'])->name('index');
