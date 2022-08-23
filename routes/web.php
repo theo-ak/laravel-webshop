@@ -20,9 +20,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-Route::get('/logout', [LoginController::class, 'destroy'])->name('logout')->middleware('auth');
+    Route::post('/products', [ProductController::class, 'store'])->name('product.store');
+
+    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('product.update');
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/{id}', [OrderController::class, 'show'])->name('order.show');
+    Route::post('/orders', [CartController::class, 'checkout'])->name('orders.store');
+
+    Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
+});
+
+Route::post('/login', [LoginController::class, 'store'])->name('login.store')->middleware('guest');
+
 
 Route::get('/', [HomepageController::class, 'index'])->name('index');
 Route::get('/fetch-products', [HomepageController::class, 'fetchProducts']);
@@ -31,17 +46,8 @@ Route::post('/cart/{id}', [CartController::class, 'store']);
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
-Route::post('/orders', [CartController::class, 'checkout'])->name('orders.store');
 
-Route::get('/products', [ProductController::class, 'index'])->name('products.index')->middleware('auth');
-Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
 
-Route::post('/products', [ProductController::class, 'store'])->name('product.store')->middleware('auth');
 
-Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('product.edit')->middleware('auth');
-Route::put('/products/{id}', [ProductController::class, 'update'])->name('product.update')->middleware('auth');
-
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index')->middleware('auth');
-Route::get('orders/{id}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
 
 
