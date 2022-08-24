@@ -107,8 +107,6 @@
             <p class="text-danger error price-error small"></p>
         </div>
 
-        <input type="hidden" name="id" id="id">
-
         <div class="product-footer">
             <a href="#products">
                 <button type="button" class="btn btn-secondary">{{ __('labels.Back') }}</button>
@@ -128,9 +126,7 @@
     </div>
 
     <script>
-        console.log('{{ url()->full() }}');
         let checkAuth = '{{ auth()->check() }}';
-        console.log(checkAuth);
 
         // translations array
         const translations = {
@@ -256,7 +252,7 @@
                         `<td>${product.price}</td>`,
                         `<td class="action-buttons">`,
                         `<button type="submit" value="${product.id}" class="btn btn-primary mb-2 delete-product">${translate('Delete product')}</button>`,
-                        `<a href="#product"><button type="submit" value="${product.id}" class="btn btn-primary edit-product">${translate('Edit')}</button></a>`,
+                        `<a href="#product/${product.id}/edit"><button type="button" class="btn btn-primary edit-product">${translate('Edit')}</button></a>`,
                         `</td>`,
                         `</tr>`
                     ].join('');
@@ -289,7 +285,7 @@
                         `<td>${order.comments}</td>`,
                         `<td>${order.total}</td>`,
                         `<td class="action-buttons">`,
-                        `<a href="#order"><button type="submit" value="${order.id}" class="btn btn-primary mb-2 view-order"></button></a>`,
+                        `<a href="#orders/${order.id}"><button type="button" class="btn btn-primary mb-2 view-order">${translate('View order')}</button></a>`,
                         `</td>`,
                         `</tr>`
                     ].join('');
@@ -504,33 +500,6 @@
                 });
             });
 
-            $(document).on('click', '.edit-product', function () {
-                productId = $(this).val();
-
-                $('#product .action-button')
-                    .text(' {{ __('labels.Edit') }} ')
-                    .removeClass('store-product')
-                    .addClass('update-product');
-
-                $.ajax({
-                    type: 'get',
-                    url: '/products/' + productId + '/edit',
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.status === 404) {
-                            $('#title').val('');
-                            $('#description').val('');
-                            $('#price').val('');
-                        } else {
-                            $('#title').val(response.product.title);
-                            $('#description').val(response.product.description);
-                            $('#price').val(response.product.price);
-                            $('#id').val(productId);
-                        }
-                    }
-                });
-            });
-
             $(document).on('click', '.update-product', function (e) {
                 e.preventDefault();
 
@@ -575,26 +544,17 @@
                 });
             });
 
-            $(document).on('click', '.view-order', function () {
-                orderId = $(this).val();
-
-                $.ajax({
-                    type: 'get',
-                    url: '/orders/' + orderId,
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.status === 200) {
-                            $('.order .list').html(renderOrder(response.orders));
-                        }
-                    }
-                });
-            });
-
             /**
              * URL hash change handler
              */
             window.onhashchange = function () {
                 $('.page').hide();
+
+                let productRegEx = /#(product)\/([0-9]+)\/(edit)/;
+                let productMatches = window.location.hash.match(productRegEx) ?? [];
+
+                let orderRegEx = /#(orders)\/([0-9]+)/;
+                let orderMatches = window.location.hash.match(orderRegEx) ?? [];
 
                 switch (window.location.hash) {
                     case '#cart':
@@ -639,6 +599,32 @@
                         $('#product input').val('');
                         $('.product').show();
                         break;
+                    case productMatches[0]:
+                        let productId = productMatches[2];
+
+                        $.ajax({
+                            type: 'get',
+                            url: '/products/' + productId + '/edit',
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response.status === 404) {
+                                    $('#title').val('');
+                                    $('#description').val('');
+                                    $('#price').val('');
+                                } else {
+                                    $('#title').val(response.product.title);
+                                    $('#description').val(response.product.description);
+                                    $('#price').val(response.product.price);
+                                    $('.action-button')
+                                        .removeClass('store-product')
+                                        .addClass('update-product')
+                                        .text(translate('Edit'));
+                                }
+                            }
+                        });
+
+                        $('.product').show();
+                        break;
                     case '#orders':
                         if (checkAuth === '1') {
                             $.ajax({
@@ -655,7 +641,19 @@
                             window.location = '#login';
                         }
                         break;
-                    case '#order':
+                    case orderMatches[0]:
+                        let orderId = orderMatches[2];
+
+                        $.ajax({
+                            type: 'get',
+                            url: '/orders/' + orderId,
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response.status === 200) {
+                                    $('.order .list').html(renderOrder(response.orders));
+                                }
+                            }
+                        });
                         $('.order').show();
                         break;
                     default:
